@@ -1,0 +1,41 @@
+body {
+    background-color: pink;
+    text-align: center;
+    font-family:'Courier New', Courier, monospace;
+}
+main {
+    margin: auto;
+}
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #0079a8;
+    border: 2px solid black;
+}
+ul li {
+    float: left;
+}
+ul li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    transition-property: background-color, font-size;
+    transition-duration: 2s;
+}
+ul li a:hover {
+    background-color: #111111;
+    font-size: 20px;
+}
+div.row {
+    margin: 50px auto;
+    display: grid;
+    grid-template-columns: 33% 33% 33%;
+}
+div.box {
+    margin: 10px;
+    text-align: center;
+}

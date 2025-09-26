@@ -1,0 +1,35 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    background-color: ivory;
+}
+
+#main {
+    height: 500px;
+    width: 800px;
+    background-color: black;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    grid-template-areas: 
+    "v1 s3 s3 h h "
+    "v1 sq sq s2 v2"
+    "sl sq sq s2 v2";
+}
+
+#main > div {
+    border: solid white 1px;
+    color: white;
+}
+
+.sgl1 { grid-area: sl; }
+.sgl2 { grid-area: s2; }
+.sgl3 { grid-area: s3; }
+.hor { grid-area: h; }
+.vrt1 { grid-area: v1; }
+.vrt2 { grid-area: v2; }
+.sqr { grid-area: sq; }
+
+  /* "v s s h h" 
+        "v sq sq s v" 
+        "s sq sq s v"; */
