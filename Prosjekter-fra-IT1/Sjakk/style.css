@@ -1,0 +1,22 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    background-color: ivory;
+}
+
+#main {
+    height: 800px;
+    width: 800px;
+    background-color: rgba(0, 0, 0, 0.842);
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(8, 1fr);
+}
+
+#main > div {
+   border: solid white 1px;
+   color: white;
+}
+#main > div:nth-child(even) {
+    background-color: beige;
+}

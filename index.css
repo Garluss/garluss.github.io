@@ -4,13 +4,16 @@ html, body {
     font-family: 'Times New Roman', Times, serif;
 }
 main {
+    background-color: black;
     display: grid;
     grid-template-columns: 2fr 3fr 2fr;
-    height: 100vh;
+    grid-template-areas: "b1 ih b2";
+    height: 100%;
 }
 #innhold {
     background-color: antiquewhite;
     text-align: center;
+    grid-area: ih;
 }
 #innhold h1 {
     font-size: 45px;
@@ -30,4 +33,28 @@ nav a {
 }
 nav a:hover {
     background-color: rgb(58, 58, 58);
+}
+#b1 {
+    grid-area: b1;
+}
+#b1 img {
+    width: 100%;
+    height: 700px;
+    object-fit: cover;
+}
+#b2 {
+    grid-area: b2;
+}
+#b2 img {
+    width: 100%;
+    height: 700px;
+    object-fit: cover;
+}
+@media only screen and (max-width: 800px) {
+    main {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 3fr;
+        grid-template-areas: "ih" "b1" "b2";
+    }
 }

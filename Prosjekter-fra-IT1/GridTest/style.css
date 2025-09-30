@@ -7,14 +7,11 @@ html, body {
 #main {
     height: 500px;
     width: 800px;
-    background-color: black;
+    background-color: rgba(0, 0, 0, 0.842);
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: repeat(3, 1fr);
-    grid-template-areas: 
-    "v1 s3 s3 h h "
-    "v1 sq sq s2 v2"
-    "sl sq sq s2 v2";
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-areas: "a a a b c" "a a a b c" "d d d e e";
 }
 
 #main > div {
@@ -22,13 +19,12 @@ html, body {
     color: white;
 }
 
-.sgl1 { grid-area: sl; }
-.sgl2 { grid-area: s2; }
-.sgl3 { grid-area: s3; }
-.hor { grid-area: h; }
-.vrt1 { grid-area: v1; }
-.vrt2 { grid-area: v2; }
-.sqr { grid-area: sq; }
+.a { grid-area: a;}
+.b {grid-area:b;}
+.c {grid-area:c;}
+.d {grid-area:d;}
+.e {grid-area:e;}
+
 
   /* "v s s h h" 
         "v sq sq s v" 
