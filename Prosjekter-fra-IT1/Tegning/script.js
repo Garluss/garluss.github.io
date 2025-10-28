@@ -1,3 +1,9 @@
+/*
+TO DO
+- lag erase knapp
+
+*/
+
 function generateDivs(x,y) {
     for (let iy = 0; iy < y; iy++) {
         for (let ix = 0; ix < x; ix++) {
@@ -13,11 +19,13 @@ function drawSprite(sprite) {
     pos = document.getElementById(`x${sprite.x} y${sprite.y}`);
     pos.setAttribute("occupied",sprite);
     pos.style.backgroundColor = sprite.color;
+    pos.style.borderColor = sprite.color;
 }
 function clean() {
     let allDivs = document.querySelectorAll(".block");
     allDivs.forEach(function(element) {
         element.style.backgroundColor = "white";
+        element.style.borderColor = "black";
     });
 }
 function attemptMove(sprite,dx,dy) {
@@ -39,7 +47,13 @@ document.addEventListener("keydown", function(event) {
     } else if (event.key == "ArrowDown") {
         attemptMove(player,0,1);
     } else if (event.key == " ") {
-        createBlot("black",player.x,player.y);
+        createBlot(player.color,player.x,player.y);
+    } else if (event.key == "b") {
+        player.color = "black";
+    } else if (event.key == "w") {
+        player.color = "white";
+    } else if (event.key == "g") {
+        player.color = "green";
     }
 });
 
@@ -49,7 +63,7 @@ function sleep(ms) {
 
 function createBlot(color,x,y) {
     let blot = {"color":color,"x":x,"y":y};
-    sprites.push(blot);
+    sprites.unshift(blot);
 }
 
 let sprites = [];
