@@ -1,6 +1,8 @@
 /*
 TO DO
 - lag erase knapp
+- legg til å endre row og columns for grid
+slik at man kan lage andre størrelse ok ikke kun 8-8
 
 */
 
