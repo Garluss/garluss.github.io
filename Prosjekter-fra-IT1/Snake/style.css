@@ -1,0 +1,11 @@
+.block {
+    width: 100px;
+    height: 100px;
+    border: solid black 1px;
+}
+#grid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(8, 1fr);
+    width:fit-content;
+}
