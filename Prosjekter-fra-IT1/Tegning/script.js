@@ -1,7 +1,6 @@
 /*
 TO DO
-- legg til å endre størrelse på boksene utifra grid størrelse
-width og height kan være (800/n)px
+- finn en lurer måte å gi blokkene riktig størrelse enn i clean() funksjonen
 
 */
 
@@ -29,6 +28,8 @@ function clean() {
     allDivs.forEach(function(element) {
         element.style.backgroundColor = "white";
         element.style.borderColor = "black";
+        element.style.height = `${800/grid.y}px`;
+        element.style.width = `${800/grid.x}px`;
     });
 }
 function attemptMove(sprite,dx,dy) {
@@ -97,8 +98,8 @@ let player = {"color":"black","x":0,"y":0};
 sprites.push(player);
 
 const grid = {
-    x: 9, 
-    y: 9,
+    x: 21, 
+    y: 21,
     generate: function() {generateDivs(this.x,this.y);}
 };
 
