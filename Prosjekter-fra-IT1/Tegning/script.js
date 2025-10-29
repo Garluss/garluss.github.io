@@ -1,25 +1,26 @@
 /*
 TO DO
-- lag erase knapp
-- legg til å endre row og columns for grid
-slik at man kan lage andre størrelse ok ikke kun 8-8
+- legg til å endre størrelse på boksene utifra grid størrelse
+width og height kan være (800/n)px
 
 */
 
 function generateDivs(x,y) {
+    const doc_grid = document.querySelector("#grid");
+    doc_grid.style.gridTemplateColumns = `repeat(${x}, 1fr)`;
+    doc_grid.style.gridTemplateRows = `repeat(${y}, 1fr)`;
     for (let iy = 0; iy < y; iy++) {
         for (let ix = 0; ix < x; ix++) {
             let block = document.createElement("div");
             block.setAttribute("class","block");
             block.setAttribute("id",`x${ix} y${iy}`);
-            document.querySelector("#grid").appendChild(block);
+            doc_grid.appendChild(block);
         }
     }
 }
 
 function drawSprite(sprite) {
     pos = document.getElementById(`x${sprite.x} y${sprite.y}`);
-    pos.setAttribute("occupied",sprite);
     pos.style.backgroundColor = sprite.color;
     pos.style.borderColor = sprite.color;
 }
@@ -56,6 +57,9 @@ document.addEventListener("keydown", function(event) {
         player.color = "white";
     } else if (event.key == "g") {
         player.color = "green";
+    } else if (event.key == "e") {
+        removeBlot(player.x,player.y);
+        console.log(sprites);
     }
 });
 
@@ -63,9 +67,28 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+function getSpriteByPos(x,y) {
+    for (const object of sprites) {
+        if (object.x == x && object.y == y) {
+            console.log(object);
+            return object;
+        }
+    }
+    return null;
+}
 function createBlot(color,x,y) {
+    let object = getSpriteByPos(x,y);
+    if (object != null) {
+        removeBlot(x,y);
+    }
     let blot = {"color":color,"x":x,"y":y};
     sprites.unshift(blot);
+}
+function removeBlot(x,y) {
+    let object = getSpriteByPos(x,y);
+    if (object != player && object != null) {
+        sprites.splice(sprites.indexOf(object),1);
+    }
 }
 
 let sprites = [];
@@ -74,8 +97,8 @@ let player = {"color":"black","x":0,"y":0};
 sprites.push(player);
 
 const grid = {
-    x: 8, 
-    y: 8,
+    x: 9, 
+    y: 9,
     generate: function() {generateDivs(this.x,this.y);}
 };
 
