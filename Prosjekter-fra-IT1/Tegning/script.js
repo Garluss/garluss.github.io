@@ -40,33 +40,6 @@ function attemptMove(sprite,dx,dy) {
     }
 }
 
-document.addEventListener("keydown", function(event) {
-    if (event.key == "ArrowRight") {
-        attemptMove(player,1,0);
-    } else if (event.key == "ArrowLeft") {
-        attemptMove(player,-1,0);
-    } else if (event.key == "ArrowUp") {
-        attemptMove(player,0,-1);
-    } else if (event.key == "ArrowDown") {
-        attemptMove(player,0,1);
-    } else if (event.key == " ") {
-        createBlot(player.color,player.x,player.y);
-    } else if (event.key == "b") {
-        player.color = "black";
-    } else if (event.key == "w") {
-        player.color = "white";
-    } else if (event.key == "g") {
-        player.color = "green";
-    } else if (event.key == "e") {
-        removeBlot(player.x,player.y);
-        console.log(sprites);
-    }
-});
-
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 function getSpriteByPos(x,y) {
     for (const object of sprites) {
         if (object.x == x && object.y == y) {
@@ -90,6 +63,33 @@ function removeBlot(x,y) {
         sprites.splice(sprites.indexOf(object),1);
     }
 }
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+document.addEventListener("keydown", function(event) {
+    if (event.key == "ArrowRight") {
+        attemptMove(player,1,0);
+    } else if (event.key == "ArrowLeft") {
+        attemptMove(player,-1,0);
+    } else if (event.key == "ArrowUp") {
+        attemptMove(player,0,-1);
+    } else if (event.key == "ArrowDown") {
+        attemptMove(player,0,1);
+    } else if (event.key == " ") {
+        createBlot(player.color,player.x,player.y);
+    } else if (event.key == "b") {
+        player.color = "black";
+    } else if (event.key == "w") {
+        player.color = "white";
+    } else if (event.key == "g") {
+        player.color = "green";
+    } else if (event.key == "e") {
+        removeBlot(player.x,player.y);
+        console.log(sprites);
+    }
+});
 
 let sprites = [];
 
