@@ -86,6 +86,8 @@ document.addEventListener("keydown", function(event) {
         player.color = "white";
     } else if (event.key == "g") {
         player.color = "green";
+    } else if (event.key == "r") {
+        player.color = "red";
     } else if (event.key == "e") {
         removeBlot(player.x,player.y);
         console.log(sprites);
@@ -98,8 +100,8 @@ let player = {"color":"black","x":0,"y":0};
 sprites.push(player);
 
 const grid = {
-    x: 21, 
-    y: 21,
+    x: 9, 
+    y: 9,
     generate: function() {generateDivs(this.x,this.y);}
 };
 

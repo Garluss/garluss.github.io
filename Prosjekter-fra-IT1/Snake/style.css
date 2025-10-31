@@ -1,0 +1,7 @@
+.block {
+    border: solid black 1px;
+}
+#grid {
+    display: grid;
+    width:fit-content;
+}
