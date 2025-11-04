@@ -1,0 +1,1 @@
+//legg til get og give greier her og i app.js slik at han kan hente bildene og sende bilder

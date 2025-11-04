@@ -1,0 +1,19 @@
+html, body {
+    margin: 0;
+    padding: 0;
+}
+main {
+    display: flex;
+    flex-direction: column;
+   align-items: center;
+}
+#visning {
+    height: 500px;
+    width: 500px;
+}
+#panel {
+    width: 400px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}

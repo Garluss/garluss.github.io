@@ -163,7 +163,7 @@ const grid = {
 };
 
 let playing = true;
-const FPS = 4;
+const FPS = 6;
 
 async function run() {
     grid.generate()
