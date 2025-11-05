@@ -15,6 +15,11 @@
             <button id="forrige">Forrige</button>
             <button id="neste">Neste</button>
         </div>
+        <form action="/api/opplast" method="post" enctype="multipart/form-data">
+            <label for="bildeFil">Velg bilde:</label>
+            <input type="file" id="bildeFil" name="bildeFil" accept="image/*">
+            <button type="submit">Last opp bildet</button>
+        </form>
     </main>
 </body>
 </html>
