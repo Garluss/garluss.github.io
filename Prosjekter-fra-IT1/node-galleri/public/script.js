@@ -10,6 +10,7 @@ function main(data) {
     const bilder = data;
     const knappN = document.querySelector("#neste");
     const knappF = document.querySelector("#forrige");
+    const opplastForm = document.querySelector("#opplastForm");
 
     let bilde_indeks = 0;
 
@@ -30,6 +31,18 @@ function main(data) {
         visBilde(bilder[bilde_indeks]);
     });
     visBilde(bilder[bilde_indeks]);
+    opplastForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+
+        const res = await fetch("/api/opplast", {method: "POST",body: formData});
+
+        if (res.ok) {
+            window.location.reload();
+        } else {
+            console.error("Feilet opplastning");
+        }
+    });
 }
 function visBilde(bilde) {
     const ramme = document.querySelector("#visning");

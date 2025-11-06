@@ -17,3 +17,6 @@ main {
     flex-direction: row;
     justify-content: space-around;
 }
+#opplastForm {
+    margin-top: 30px;
+}
