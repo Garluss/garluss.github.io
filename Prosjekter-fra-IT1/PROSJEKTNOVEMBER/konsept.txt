@@ -1,0 +1,8 @@
+Grunnen av spillet er en labyrint-utforsker.
+Spilleren vil måtte gå gjennom labyrinten mens den unngår feller og fiender.
+Etterhvert vil spilleren finne kort og mynter.
+Kortene har ulike evner for å gjøre utforskningen enklere.
+Myntene kan brukes hovedsakelig for å oppgradere kortene.
+Kostnadden for å oppgradere et kort blir eksponentielt dyrere.
+
+- Kanskje å gjøre denne til en rouge-like hadde vært gøy. Informasjon kan lagres som cookies.
