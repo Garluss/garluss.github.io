@@ -11,6 +11,46 @@ function generateDivs(x,y) {
         }
     }
 }
+function generateCells() {
+    let cells = [];
+    for (let iy = 0; iy < grid.y/2-1; iy++) {
+        cells[iy] = [];
+        for (let ix = 0; ix < grid.x/2-1; ix++) {
+            let cell = {x:ix*2+1,y:iy*2+1,visited:false};
+            cells[iy][ix]= cell;
+        }
+    }
+    return cells;
+}
+function checkAvailability(x,y,pattern) {
+    let list = [[y,x+1],[y,x-1],[y+1,x],[y-1,x]];
+    let final = [];
+    list.forEach(coord => {
+        if (pattern[coord[0]][coord[1]].visited == false) {
+            final.push(pattern[coord[0]][coord[1]]);
+        }
+    });
+    return final;
+}
+function generateMaze(start_x,start_y) {
+    let current = {x:start_x,y:start_y};
+    let pattern = generateCells(); // Husk at x og y-coordinatene er motsatt. pattern[y][x] gir element på (x,y)
+    let generating = true;
+    while (generating) {
+        pattern[current.y][current.x].visited = true; //setter den nåværende som "besøkt"
+        available_cells = checkAvailability(current.x,current.y,pattern); // leter etter tilgjengelige plasser, returnerer en liste av objektene som representerer cellene
+        if (available_cells != []) {
+            let rnd = Math.floor(Math.random()*available_cells.length); //finner tilfeldig fra de ledige
+            let x = available_cells[rnd].x;
+            let y = available_cells[rnd].y;
+            // ny posisjon for den nåværende
+            current.x = x; 
+            current.y = y;
+        } else {
+            // skriv inn greier slik at den går tilbake på samme sti
+        }
+    }
+}
 function drawSprite(sprite) {
     pos = document.getElementById(`x${sprite.x} y${sprite.y}`);
     pos.style.backgroundColor = sprite.color;
@@ -19,7 +59,7 @@ function drawSprite(sprite) {
 function clean() {
     let allDivs = document.querySelectorAll(".block");
     allDivs.forEach(function(element) {
-        element.style.backgroundColor = "white";
+        element.style.backgroundColor = "black";
         element.style.borderColor = "black";
         element.style.height = `${600/grid.y}px`;
         element.style.width = `${900/grid.x}px`;
@@ -52,16 +92,17 @@ document.addEventListener("keydown", function(event) {
         attemptMove(player,0,1);
     } else if (event.key == "t") {
         playing = false;
+        console.log("Session terminated.");
     }
 });
 
 let sprites = [];
 
-let player = {x:15,y:10,color:"green"};
+let player = {x:16,y:10,color:"green"};
 
 const grid = {
-    x: 30, 
-    y: 20,
+    x: 33,
+    y: 21,
     generate: function() {generateDivs(this.x,this.y);}
 };
 
@@ -77,7 +118,7 @@ function sleep(ms) {
 
 async function run() {
     grid.generate();
-
+    console.log(generateCells());
     while (playing == true) {
         clean();
         sprites.forEach(sprite => {
