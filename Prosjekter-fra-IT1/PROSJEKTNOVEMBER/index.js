@@ -16,18 +16,22 @@ function generateCells() {
     for (let iy = 0; iy < grid.y/2-1; iy++) {
         cells[iy] = [];
         for (let ix = 0; ix < grid.x/2-1; ix++) {
-            let cell = {x:ix*2+1,y:iy*2+1,visited:false};
+            let cell = [ix*2+1,iy*2+1];
             cells[iy][ix]= cell;
         }
     }
     return cells;
 }
-function checkAvailability(x,y,pattern) {
+function checkAvailability(x,y,pattern,visit_list) {
     let list = [[y,x+1],[y,x-1],[y+1,x],[y-1,x]];
     let final = [];
     list.forEach(coord => {
-        if (pattern[coord[0]][coord[1]].visited == false) {
-            final.push(pattern[coord[0]][coord[1]]);
+        if (pattern.hasOwnProperty(coord[0])) { // Denne er egentlig brukt for objekter, sjekk om noe alternativt går
+            if (pattern[coord[0]].hasOwnProperty(coord[1])) {
+                if (visit_list.includes(pattern[coord[0]][coord[1]]) == false) {
+                    final.push(pattern[coord[0]][coord[1]]);
+                }
+            }
         }
     });
     return final;
@@ -35,19 +39,37 @@ function checkAvailability(x,y,pattern) {
 function generateMaze(start_x,start_y) {
     let current = {x:start_x,y:start_y};
     let pattern = generateCells(); // Husk at x og y-coordinatene er motsatt. pattern[y][x] gir element på (x,y)
+    console.log(pattern);
     let generating = true;
+    let path = [];
+    let open_positions = [];
+    let visit_list = [];
     while (generating) {
-        pattern[current.y][current.x].visited = true; //setter den nåværende som "besøkt"
-        available_cells = checkAvailability(current.x,current.y,pattern); // leter etter tilgjengelige plasser, returnerer en liste av objektene som representerer cellene
-        if (available_cells != []) {
+        // konverterer x og y slik at de passer med pattern
+        let fit_x = (current.x-1)/2;
+        let fit_y = (current.y-1)/2;
+        open_positions.push([current.x,current.y]);
+        visit_list.push(pattern[fit_y][fit_x]); //setter den nåværende som "besøkt"
+        available_cells = checkAvailability(fit_x,fit_y,pattern,visit_list); // leter etter tilgjengelige plasser, returnerer en liste av objektene som representerer cellene
+        if (available_cells.length != 0) {
+            console.log(available_cells, current.x, current.y);
             let rnd = Math.floor(Math.random()*available_cells.length); //finner tilfeldig fra de ledige
-            let x = available_cells[rnd].x;
-            let y = available_cells[rnd].y;
+            let x = available_cells[rnd][0];
+            let y = available_cells[rnd][1];
+            path.push([current.x,current.y]);
+            open_positions.push([(current.x+x)/2,(current.y+y)/2]);
             // ny posisjon for den nåværende
             current.x = x; 
             current.y = y;
         } else {
-            // skriv inn greier slik at den går tilbake på samme sti
+            if (current.x == start_x && current.y == start_y) {
+                console.log("Generating done.");
+                return open_positions;
+            }
+            const to = path.pop();
+            console.log(`Backtrack to: ${to}`);
+            current.x = to[0];
+            current.y = to[1];
         }
     }
 }
@@ -73,32 +95,62 @@ function getSpriteByPos(x,y) {
     }
     return null;
 }
+
+function look(from_x,from_y) {
+    let raycasts = [];
+    for (let i = 0; i < 4; i++) {
+        let directions = [[1,0],[-1,0],[0,1],[0,-1]];
+        let raycast = {x:from_x,y:from_y,vx:directions[i][0],vy:directions[i][1]};
+        raycasts.push(raycast);
+    }
+    let visible_positions = [];
+    while (raycasts.length > 0) {
+        raycasts.forEach(raycast => {
+            if (open_positions.some(innerArr => innerArr[0] === raycast.x+raycast.vx && innerArr[1] === raycast.y+raycast.vy) == true) {
+                raycast.x += raycast.vx;
+                raycast.y += raycast.vy;
+                visible_positions.push([raycast.x,raycast.y]);
+            } else {
+                raycasts.splice(raycasts.indexOf(raycast),1);
+            }
+        });
+    }
+    return visible_positions;
+}
+
 function attemptMove(sprite,dx,dy) {
-    if (sprite.x + dx < grid.x && sprite.x + dx > -1) {
+    if (sprite.x + dx < grid.x && sprite.x + dx > -1 && open_positions.some(innerArr => innerArr[0] === sprite.x+dx && innerArr[1] === sprite.y) == true) {
         sprite.x += dx;
     }
-    if (sprite.y + dy < grid.y && sprite.y + dy > -1) {
+    if (sprite.y + dy < grid.y && sprite.y + dy > -1 && open_positions.some(innerArr => innerArr[0] === sprite.x && innerArr[1] === sprite.y+dy) == true) {
         sprite.y += dy;
     }
 }
+let isActionActive = false;
 document.addEventListener("keydown", function(event) {
-    if (event.key == "ArrowRight") {
-        attemptMove(player,1,0);
-    } else if (event.key == "ArrowLeft") {
-        attemptMove(player,-1,0);
-    } else if (event.key == "ArrowUp") {
-        attemptMove(player,0,-1);
-    } else if (event.key == "ArrowDown") {
-        attemptMove(player,0,1);
-    } else if (event.key == "t") {
-        playing = false;
-        console.log("Session terminated.");
+    if (!isActionActive) {
+        if (event.key == "ArrowRight") {
+            attemptMove(player,1,0);
+        } else if (event.key == "ArrowLeft") {
+            attemptMove(player,-1,0);
+        } else if (event.key == "ArrowUp") {
+            attemptMove(player,0,-1);
+        } else if (event.key == "ArrowDown") {
+            attemptMove(player,0,1);
+        } else if (event.key == "t") {
+            playing = false;
+            console.log("Session terminated.");
+        }
+        isActionActive = true;
     }
+});
+document.addEventListener('keyup', function(event) {
+    isActionActive = false;
 });
 
 let sprites = [];
 
-let player = {x:16,y:10,color:"green"};
+let player = {x:15,y:11,color:"green"}; //spiller MÅ starte på en celle definert av generateCells()
 
 const grid = {
     x: 33,
@@ -110,17 +162,31 @@ sprites.push(player);
 
 
 let playing = true;
-const FPS = 30;
+const FPS = 10;
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+let open_positions = generateMaze(player.x,player.y);
+let previously_seen = [];
+
 async function run() {
     grid.generate();
-    console.log(generateCells());
+    console.log(open_positions);
     while (playing == true) {
+        // mulig å effektivisere slik at kun bevegende ting blir renset opp i, mye færre operasjoner da
         clean();
+        // Denne delen må effektiviseres en god del.
+        previously_seen.forEach(pos => {
+            pos = document.getElementById(`x${pos[0]} y${pos[1]}`);
+            pos.style.backgroundColor = "gray";
+        })
+        look(player.x,player.y).forEach(pos => {
+            if (previously_seen.includes(pos) == false) { previously_seen.push(pos); }
+            pos = document.getElementById(`x${pos[0]} y${pos[1]}`);
+            pos.style.backgroundColor = "white";
+        });
         sprites.forEach(sprite => {
             drawSprite(sprite);
         });
