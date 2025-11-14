@@ -1,3 +1,10 @@
+//To Do:
+//  Legg til gull
+//  Legg til fiende
+//  Du vinner om du går gjennom hele labyrinten
+//  Legg til kort/abilities
+//  Legg til progressbar
+
 function generateDivs(x,y) {
     const doc_grid = document.querySelector("#grid");
     doc_grid.style.gridTemplateColumns = `repeat(${x}, 1fr)`;
@@ -129,13 +136,13 @@ function attemptMove(sprite,dx,dy) {
 let isActionActive = false;
 document.addEventListener("keydown", function(event) {
     if (!isActionActive) {
-        if (event.key == "ArrowRight") {
+        if (event.key == "ArrowRight" || event.key == "d") {
             attemptMove(player,1,0);
-        } else if (event.key == "ArrowLeft") {
+        } else if (event.key == "ArrowLeft" || event.key == "a") {
             attemptMove(player,-1,0);
-        } else if (event.key == "ArrowUp") {
+        } else if (event.key == "ArrowUp" || event.key == "w") {
             attemptMove(player,0,-1);
-        } else if (event.key == "ArrowDown") {
+        } else if (event.key == "ArrowDown" || event.key == "s") {
             attemptMove(player,0,1);
         } else if (event.key == "t") {
             playing = false;
