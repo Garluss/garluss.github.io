@@ -1,9 +1,14 @@
 //To Do:
-//  Legg til gull
+//  Legg til slik at look() renderer sprites (kanskje en anne metode enn forEach, kanskje .some?)
 //  Legg til fiende
 //  Du vinner om du går gjennom hele labyrinten
 //  Legg til kort/abilities
 //  Legg til progressbar
+
+function rand(max) {
+    // returnerer tilfeldig fra og med 0 til max
+    return Math.floor(Math.random()*max);
+}
 
 function generateDivs(x,y) {
     const doc_grid = document.querySelector("#grid");
@@ -59,8 +64,8 @@ function generateMaze(start_x,start_y) {
         visit_list.push(pattern[fit_y][fit_x]); //setter den nåværende som "besøkt"
         available_cells = checkAvailability(fit_x,fit_y,pattern,visit_list); // leter etter tilgjengelige plasser, returnerer en liste av objektene som representerer cellene
         if (available_cells.length != 0) {
-            console.log(available_cells, current.x, current.y);
-            let rnd = Math.floor(Math.random()*available_cells.length); //finner tilfeldig fra de ledige
+            //console.log(available_cells, current.x, current.y);
+            let rnd = rand(available_cells.length); //finner tilfeldig fra de ledige
             let x = available_cells[rnd][0];
             let y = available_cells[rnd][1];
             path.push([current.x,current.y]);
@@ -74,7 +79,7 @@ function generateMaze(start_x,start_y) {
                 return open_positions;
             }
             const to = path.pop();
-            console.log(`Backtrack to: ${to}`);
+            //console.log(`Backtrack to: ${to}`);
             current.x = to[0];
             current.y = to[1];
         }
@@ -102,6 +107,29 @@ function getSpriteByPos(x,y) {
     }
     return null;
 }
+
+// Lager kopier og plasserer dem tilfeldig rundt, mengde og minimum distanse til spiller er også med
+function spawnSpritesOfType(sprite_type,amount,min_dist) {
+    for (let i = 0; i < amount; i++) {
+        let copy = sprite_type;
+        // finner mulige posisjoner, prøver kun 400 ganger
+        for (let i = 0; i < 400; i++) {
+            let rand_coords = open_positions[rand(open_positions.length)];
+            let x = rand_coords[0];
+            let y = rand_coords[1];
+            let dist = Math.sqrt((player.x-x)**2+(player.y-y)**2);
+            if (dist > min_dist) {
+                copy.x = x;
+                copy.y = y;
+                sprites.unshift(copy);
+                break;
+            }
+        }
+    }
+}
+
+
+
 
 function look(from_x,from_y) {
     let raycasts = [];
@@ -158,6 +186,7 @@ document.addEventListener('keyup', function(event) {
 let sprites = [];
 
 let player = {x:15,y:11,color:"green"}; //spiller MÅ starte på en celle definert av generateCells()
+let coin = {x:0,y:0,color:"yellow"};
 
 const grid = {
     x: 33,
@@ -178,13 +207,18 @@ function sleep(ms) {
 let open_positions = generateMaze(player.x,player.y);
 let previously_seen = [];
 
+// spawning av ting her
+spawnSpritesOfType(coin,1,5);
+console.log(sprites);
+
 async function run() {
     grid.generate();
-    console.log(open_positions);
+    //console.log(open_positions);
     while (playing == true) {
         // mulig å effektivisere slik at kun bevegende ting blir renset opp i, mye færre operasjoner da
         clean();
         // Denne delen må effektiviseres en god del.
+        // Kan kombienre ting inn i look-funksjonen. Slik at det hindrer så mye forEach.
         previously_seen.forEach(pos => {
             pos = document.getElementById(`x${pos[0]} y${pos[1]}`);
             pos.style.backgroundColor = "gray";
@@ -194,9 +228,7 @@ async function run() {
             pos = document.getElementById(`x${pos[0]} y${pos[1]}`);
             pos.style.backgroundColor = "white";
         });
-        sprites.forEach(sprite => {
-            drawSprite(sprite);
-        });
+        drawSprite(player);
         await sleep(1000/FPS);
     }
 }

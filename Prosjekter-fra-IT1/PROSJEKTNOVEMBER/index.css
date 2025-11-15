@@ -12,13 +12,12 @@ html, body {
 #cards {
     border: 1px black solid;
     width: 90%;
-    height:30%;
+    height:400px;
 }
 main {
     display: flex;
-    height: 100vh;
     width: 100vw;
+    margin-top: 50px;
     flex-direction: column;
-    justify-content: end;
     align-items: center;
 }
