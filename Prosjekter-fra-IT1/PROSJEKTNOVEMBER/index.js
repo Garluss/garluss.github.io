@@ -1,9 +1,11 @@
 //To Do:
-//  Legg til slik at look() renderer sprites (kanskje en anne metode enn forEach, kanskje .some?)
+//  ORDNE UPDATE PRGRESS
 //  Legg til fiende
 //  Du vinner om du går gjennom hele labyrinten
 //  Legg til kort/abilities
 //  Legg til progressbar
+
+
 
 function rand(max) {
     // returnerer tilfeldig fra og med 0 til max
@@ -111,16 +113,19 @@ function getSpriteByPos(x,y) {
 // Lager kopier og plasserer dem tilfeldig rundt, mengde og minimum distanse til spiller er også med
 function spawnSpritesOfType(sprite_type,amount,min_dist) {
     for (let i = 0; i < amount; i++) {
-        let copy = sprite_type;
+        let copy = Object.assign({},sprite_type);;
+        console.log(copy, sprite_type);
         // finner mulige posisjoner, prøver kun 400 ganger
         for (let i = 0; i < 400; i++) {
             let rand_coords = open_positions[rand(open_positions.length)];
-            let x = rand_coords[0];
-            let y = rand_coords[1];
-            let dist = Math.sqrt((player.x-x)**2+(player.y-y)**2);
+            let r_x = rand_coords[0];
+            let r_y = rand_coords[1];
+            let dist = Math.sqrt((player.x-r_x)**2+(player.y-r_y)**2);
+            if (sprites.find(sprite => sprite.x == r_x && sprite.y == r_y) != undefined) { continue; } // Sjekker om en annen sprite er på posisjonen
             if (dist > min_dist) {
-                copy.x = x;
-                copy.y = y;
+                copy.x = r_x;
+                copy.y = r_y;
+                console.log(copy.x, copy.y)
                 sprites.unshift(copy);
                 break;
             }
@@ -138,19 +143,25 @@ function look(from_x,from_y) {
         let raycast = {x:from_x,y:from_y,vx:directions[i][0],vy:directions[i][1]};
         raycasts.push(raycast);
     }
-    let visible_positions = [];
     while (raycasts.length > 0) {
         raycasts.forEach(raycast => {
             if (open_positions.some(innerArr => innerArr[0] === raycast.x+raycast.vx && innerArr[1] === raycast.y+raycast.vy) == true) {
                 raycast.x += raycast.vx;
                 raycast.y += raycast.vy;
-                visible_positions.push([raycast.x,raycast.y]);
+                let position = [raycast.x,raycast.y];
+                if (previously_seen.includes(position) == false) { previously_seen.push(position); }
+                let pos = document.getElementById(`x${position[0]} y${position[1]}`);
+                pos.style.backgroundColor = "white";
+                sprites.forEach(sprite => {
+                    if (sprite.x == raycast.x && sprite.y == raycast.y) {
+                        drawSprite(sprite);
+                    }
+                });
             } else {
                 raycasts.splice(raycasts.indexOf(raycast),1);
             }
-        });
+        }); 
     }
-    return visible_positions;
 }
 
 function attemptMove(sprite,dx,dy) {
@@ -183,19 +194,54 @@ document.addEventListener('keyup', function(event) {
     isActionActive = false;
 });
 
+function initPBar () {
+    const bar = document.querySelector("#progress");
+    bar.style.gridTemplateColumns = `repeat(${20}, 1fr)`;
+    for (let i = 0; i < 20; i++) {
+        let part = document.createElement("div");
+        part.setAttribute("id",`p${i}`);
+        //part.setAttribute("width",`${bar.getAttribute("width")/20}px`);
+        bar.appendChild(part);
+    }
+}
+function updateProgress() {
+    let percent = previously_seen.length/open_positions.length;
+    let amount = Math.floor(percent*20);
+    for (let i = 0; i < amount; i++) {
+        let part = document.querySelector(`#p${i}`);
+        part.setAttribute("background-color","green");
+    }
+}
+
 let sprites = [];
 
-let player = {x:15,y:11,color:"green"}; //spiller MÅ starte på en celle definert av generateCells()
-let coin = {x:0,y:0,color:"yellow"};
+let coins = 0;
+
+let player = {x:15,y:11,color:"green", max_health: 2, health:this.max_health}; //spiller MÅ starte på en celle definert av generateCells()
+const coin = {
+    x: 0,
+    y: 0,
+    color:"yellow",
+    onCollision: function() {
+        sprites.splice(sprites.indexOf(this),1);
+        coins += 1;
+    }
+};
+const trap = {
+    x: 0,
+    y: 0,
+    color:"red",
+    onCollision: function() {
+        sprites.splice(sprites.indexOf(this),1);
+        player.health += -1;
+    }
+};
 
 const grid = {
     x: 33,
     y: 21,
     generate: function() {generateDivs(this.x,this.y);}
 };
-
-sprites.push(player);
-
 
 let playing = true;
 const FPS = 10;
@@ -208,11 +254,13 @@ let open_positions = generateMaze(player.x,player.y);
 let previously_seen = [];
 
 // spawning av ting her
-spawnSpritesOfType(coin,1,5);
+spawnSpritesOfType(coin,10,5);
+spawnSpritesOfType(trap,1,10);
 console.log(sprites);
 
 async function run() {
     grid.generate();
+    initPBar();
     //console.log(open_positions);
     while (playing == true) {
         // mulig å effektivisere slik at kun bevegende ting blir renset opp i, mye færre operasjoner da
@@ -223,12 +271,14 @@ async function run() {
             pos = document.getElementById(`x${pos[0]} y${pos[1]}`);
             pos.style.backgroundColor = "gray";
         })
-        look(player.x,player.y).forEach(pos => {
-            if (previously_seen.includes(pos) == false) { previously_seen.push(pos); }
-            pos = document.getElementById(`x${pos[0]} y${pos[1]}`);
-            pos.style.backgroundColor = "white";
-        });
+        look(player.x,player.y);
+        sprites.forEach(sprite => {
+            if (sprite.x == player.x && sprite.y == player.y) { // Kollisjon med spilleren av sprite
+                sprite.onCollision();
+            }   
+        })
         drawSprite(player);
+        updateProgress();
         await sleep(1000/FPS);
     }
 }

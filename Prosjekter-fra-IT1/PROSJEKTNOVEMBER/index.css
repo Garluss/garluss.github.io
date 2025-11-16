@@ -11,8 +11,27 @@ html, body {
 }
 #cards {
     border: 1px black solid;
-    width: 90%;
-    height:400px;
+    width: 60%;
+    height:300px;
+}
+#bars {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 1px black solid;
+    width: 60%;
+    height:100px;
+}
+#bars-l {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#progress {
+    display: grid;
+    width: 60%;
+    height: 40px;
+    margin-left: 20px;
+    border: solid gray 1px;
 }
 main {
     display: flex;
