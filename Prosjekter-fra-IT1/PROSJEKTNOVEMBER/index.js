@@ -1,5 +1,4 @@
 //To Do:
-//  ORDNE UPDATE PRGRESS
 //  Legg til fiende
 //  Du vinner om du går gjennom hele labyrinten
 //  Legg til kort/abilities
@@ -149,7 +148,7 @@ function look(from_x,from_y) {
                 raycast.x += raycast.vx;
                 raycast.y += raycast.vy;
                 let position = [raycast.x,raycast.y];
-                if (previously_seen.includes(position) == false) { previously_seen.push(position); }
+                if (previously_seen.some(innerArr => innerArr[0] === raycast.x && innerArr[1] === raycast.y) == false) { previously_seen.push(position); }
                 let pos = document.getElementById(`x${position[0]} y${position[1]}`);
                 pos.style.backgroundColor = "white";
                 sprites.forEach(sprite => {
@@ -194,30 +193,41 @@ document.addEventListener('keyup', function(event) {
     isActionActive = false;
 });
 
-function initPBar () {
-    const bar = document.querySelector("#progress");
+function initBars () {
+    let bar = document.querySelector("#progress");
     bar.style.gridTemplateColumns = `repeat(${20}, 1fr)`;
     for (let i = 0; i < 20; i++) {
         let part = document.createElement("div");
         part.setAttribute("id",`p${i}`);
-        //part.setAttribute("width",`${bar.getAttribute("width")/20}px`);
+        bar.appendChild(part);
+    }
+    bar = document.querySelector("#health");
+    bar.style.gridTemplateColumns = `repeat(${player.max_health}, 1fr)`;
+    for (let i = 0; i < player.max_health; i++) {
+        let part = document.createElement("div");
+        part.setAttribute("id",`h${i}`);
         bar.appendChild(part);
     }
 }
-function updateProgress() {
+function updateBars() {
     let percent = previously_seen.length/open_positions.length;
     let amount = Math.floor(percent*20);
     for (let i = 0; i < amount; i++) {
         let part = document.querySelector(`#p${i}`);
-        part.setAttribute("background-color","green");
+        part.style.backgroundColor = "darkslategrey";
     }
+    for (let i = 0; i < player.health; i++) {
+        let part = document.querySelector(`#h${i}`);
+        part.style.backgroundColor = "green";
+    }
+    document.querySelector("#coins").innerText = `Coins ${coins}`;
 }
 
 let sprites = [];
 
 let coins = 0;
 
-let player = {x:15,y:11,color:"green", max_health: 2, health:this.max_health}; //spiller MÅ starte på en celle definert av generateCells()
+let player = {x:15,y:11,color:"green", max_health: 2, health:2}; //spiller MÅ starte på en celle definert av generateCells()
 const coin = {
     x: 0,
     y: 0,
@@ -260,7 +270,7 @@ console.log(sprites);
 
 async function run() {
     grid.generate();
-    initPBar();
+    initBars();
     //console.log(open_positions);
     while (playing == true) {
         // mulig å effektivisere slik at kun bevegende ting blir renset opp i, mye færre operasjoner da
@@ -278,7 +288,7 @@ async function run() {
             }   
         })
         drawSprite(player);
-        updateProgress();
+        updateBars();
         await sleep(1000/FPS);
     }
 }

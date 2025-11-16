@@ -26,12 +26,25 @@ html, body {
     justify-content: center;
     align-items: center;
 }
+#bars-r {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#health {
+    display: grid;
+    width: 60%;
+    height: 30px;
+    margin-left: 20px;
+    border: solid rgb(0, 0, 0) 1px;
+}
 #progress {
     display: grid;
     width: 60%;
     height: 40px;
     margin-left: 20px;
-    border: solid gray 1px;
+    border: solid rgb(0, 0, 0) 1px;
 }
 main {
     display: flex;
