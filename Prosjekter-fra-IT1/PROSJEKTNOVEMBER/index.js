@@ -1,6 +1,6 @@
 //To Do:
+// Fullfør victory-condition på exitMaze()
 //  Legg til fiende
-//  Du vinner om du går gjennom hele labyrinten
 //  Legg til kort/abilities
 //  Legg til progressbar
 
@@ -206,22 +206,44 @@ function initBars () {
     for (let i = 0; i < player.max_health; i++) {
         let part = document.createElement("div");
         part.setAttribute("id",`h${i}`);
+        part.style.backgroundColor = "green";
         bar.appendChild(part);
     }
 }
 function updateBars() {
     let percent = previously_seen.length/open_positions.length;
-    let amount = Math.floor(percent*20);
+    let amount = Math.floor(percent*30); //Enkel ordning, ikke optimalt
+    console.log(previously_seen.length,open_positions.length,percent,Math.floor(percent*30));
     for (let i = 0; i < amount; i++) {
         let part = document.querySelector(`#p${i}`);
         part.style.backgroundColor = "darkslategrey";
     }
-    for (let i = 0; i < player.health; i++) {
-        let part = document.querySelector(`#h${i}`);
-        part.style.backgroundColor = "green";
+    let previous_health = player.max_health;
+    let health = player.health;
+    if (health < previous_health) {
+        for (let i = 0; i < player.max_health; i++) {
+            let part = document.querySelector(`#h${i}`);
+            part.style.backgroundColor = "white";
+        }
+        for (let i = 0; i < player.health; i++) {
+            let part = document.querySelector(`#h${i}`);
+            part.style.backgroundColor = "green";
+        }
     }
     document.querySelector("#coins").innerText = `Coins ${coins}`;
+    previous_health = health
 }
+
+function exitMaze() {
+    sprites = [];
+    playing = false;
+        // Fullfør her
+    player = true;
+    run();
+}
+
+
+
 
 let sprites = [];
 
@@ -246,6 +268,14 @@ const trap = {
         player.health += -1;
     }
 };
+const exit = {
+    x: 0,
+    y: 0,
+    color:"blue",
+    onCollision: function() {
+        exitMaze();
+    }
+}
 
 const grid = {
     x: 33,
@@ -259,16 +289,17 @@ const FPS = 10;
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
-
-let open_positions = generateMaze(player.x,player.y);
+let open_positions = [];
 let previously_seen = [];
 
 // spawning av ting her
-spawnSpritesOfType(coin,10,5);
-spawnSpritesOfType(trap,1,10);
 console.log(sprites);
 
 async function run() {
+    open_positions = generateMaze(player.x,player.y);
+    previously_seen = [];
+    spawnSpritesOfType(coin,10,5);
+    spawnSpritesOfType(trap,2,10);
     grid.generate();
     initBars();
     //console.log(open_positions);
