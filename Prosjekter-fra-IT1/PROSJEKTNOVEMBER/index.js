@@ -185,6 +185,8 @@ document.addEventListener("keydown", function(event) {
         } else if (event.key == "t") {
             playing = false;
             console.log("Session terminated.");
+        } else if (event.key == "e") {
+            exitMaze();
         }
         isActionActive = true;
     }
@@ -237,8 +239,10 @@ function updateBars() {
 function exitMaze() {
     sprites = [];
     playing = false;
+        const doc_grid = document.querySelector("#grid");
+        doc_grid.innerHTML = "";
         // Fullfør her
-    player = true;
+    playing = true;
     run();
 }
 
@@ -300,6 +304,7 @@ async function run() {
     previously_seen = [];
     spawnSpritesOfType(coin,10,5);
     spawnSpritesOfType(trap,2,10);
+    spawnSpritesOfType(exit,1,8);
     grid.generate();
     initBars();
     //console.log(open_positions);
