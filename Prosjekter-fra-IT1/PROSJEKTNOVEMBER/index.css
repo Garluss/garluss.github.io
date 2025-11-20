@@ -5,6 +5,14 @@ html, body {
 .block {
     border: solid black 1px;
 }
+.card {
+    border: solid red 1px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 210px;
+}
 #grid {
     display: grid;
     width:fit-content;
@@ -13,7 +21,7 @@ html, body {
     display: flex;
     justify-content: space-around;
     border: 1px black solid;
-    width: 60%;
+    width: 70%;
     height:300px;
 }
 #bars {

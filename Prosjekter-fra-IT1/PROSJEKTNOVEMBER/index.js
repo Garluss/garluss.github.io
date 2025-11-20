@@ -1,4 +1,7 @@
 //To Do:
+// Vis kostnad på upgrade
+// Legg til funksjon for upgrade-knapp
+// Legg til funksjon for kortene
 // Fullfør victory-condition på exitMaze()
 //  Legg til fiende
 //  Legg til kort/abilities
@@ -124,7 +127,6 @@ function spawnSpritesOfType(sprite_type,amount,min_dist) {
             if (dist > min_dist) {
                 copy.x = r_x;
                 copy.y = r_y;
-                console.log(copy.x, copy.y)
                 sprites.unshift(copy);
                 break;
             }
@@ -187,6 +189,8 @@ document.addEventListener("keydown", function(event) {
             console.log("Session terminated.");
         } else if (event.key == "e") {
             exitMaze();
+        } else if (event.key == "c") {
+            getCard("health");
         }
         isActionActive = true;
     }
@@ -217,7 +221,6 @@ function initBars () {
 function updateBars() {
     let percent = previously_seen.length/open_positions.length;
     let amount = Math.floor(percent*30); //Enkel ordning, ikke optimalt
-    console.log(previously_seen.length,open_positions.length,percent,Math.floor(percent*30));
     for (let i = 0; i < amount; i++) {
         let part = document.querySelector(`#p${i}`);
         part.style.backgroundColor = "darkslategrey";
@@ -240,6 +243,44 @@ function updateBars() {
     document.querySelector("#coins").innerText = `Coins ${coins}`;
     previous_health = health
 }
+function updateCards() {
+    const parent = document.querySelector("#cards");
+    parent.innerHTML = "";
+    cards.forEach(card => {
+        let card_div = document.createElement("div");
+        card_div.setAttribute("class","card");
+        card_div.innerHTML = "";
+        card_div.style.position = "relative";
+        let element = document.createElement("img");
+        element.setAttribute("src",card.img);
+        element.setAttribute("height","220px");
+        element.setAttribute("width","130px");
+        element.style.imageRendering = "pixelated";
+        element.style.position = "absolute";
+        element.style.top = "20px";
+        card_div.appendChild(element);
+        element = document.createElement("img");
+        element.setAttribute("src",`bilder/number_${card.level}.png`);
+        element.setAttribute("height","220px");
+        element.setAttribute("width","130px");
+        element.style.imageRendering = "pixelated";
+        element.style.position = "absolute";
+        element.style.top = "20px";
+        card_div.appendChild(element);
+        element = document.createElement("p");
+        element.innerText = card.description;
+        element.style.position = "absolute";
+        element.style.bottom = "15px";
+        card_div.appendChild(element);
+        let button = document.createElement("button");
+        button.setAttribute("id",`button-card${cards.indexOf(card)}`);
+        button.style.position = "absolute";
+        button.style.bottom = "10px";
+        button.innerText = "Upgrade";
+        card_div.appendChild(button);
+        parent.appendChild(card_div);
+    });
+}
 
 function getCard(type) {
     let card = {"type":type,"level":1};
@@ -256,6 +297,8 @@ function getCard(type) {
             return null;
     }
     cards.push(card);
+    console.log(cards);
+    updateCards();
 }
 
 function exitMaze() {
