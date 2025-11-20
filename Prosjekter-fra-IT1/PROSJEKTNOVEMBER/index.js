@@ -197,6 +197,7 @@ document.addEventListener('keyup', function(event) {
 
 function initBars () {
     let bar = document.querySelector("#progress");
+    bar.innerHTML = "";
     bar.style.gridTemplateColumns = `repeat(${20}, 1fr)`;
     for (let i = 0; i < 20; i++) {
         let part = document.createElement("div");
@@ -204,6 +205,7 @@ function initBars () {
         bar.appendChild(part);
     }
     bar = document.querySelector("#health");
+    bar.innerHTML = "";
     bar.style.gridTemplateColumns = `repeat(${player.max_health}, 1fr)`;
     for (let i = 0; i < player.max_health; i++) {
         let part = document.createElement("div");
@@ -231,27 +233,53 @@ function updateBars() {
             let part = document.querySelector(`#h${i}`);
             part.style.backgroundColor = "green";
         }
+        if (health == 0) {
+            death();
+        }
     }
     document.querySelector("#coins").innerText = `Coins ${coins}`;
     previous_health = health
 }
 
+function getCard(type) {
+    let card = {"type":type,"level":1};
+    switch (card["type"]) { // gir kortet en funksjon basert på type
+        case "health":
+            card["description"] = "Increases the player's health.";
+            card["img"] = "bilder/health_card.png";
+            card.ability = function() {
+                player.max_health += card.level;
+                initBars();
+            }
+            break;
+        default:
+            return null;
+    }
+    cards.push(card);
+}
+
 function exitMaze() {
     sprites = [];
     playing = false;
-        const doc_grid = document.querySelector("#grid");
-        doc_grid.innerHTML = "";
-        // Fullfør her
+    const doc_grid = document.querySelector("#grid");
+    doc_grid.innerHTML = "";
+    // Fullfør her
     playing = true;
     run();
 }
-
+function death() {
+    sprites = [];
+    playing = false
+    const doc_grid = document.querySelector("#grid");
+    doc_grid.innerHTML = "<p>Game Over<p>";
+}
 
 
 
 let sprites = [];
 
 let coins = 0;
+let cards = [];
 
 let player = {x:15,y:11,color:"green", max_health: 2, health:2}; //spiller MÅ starte på en celle definert av generateCells()
 const coin = {
