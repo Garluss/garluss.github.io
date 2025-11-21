@@ -1,17 +1,20 @@
 //To Do:
+// Ordne fiende oppførsel
 // Vis kostnad på upgrade
-// Legg til funksjon for upgrade-knapp
-// Legg til funksjon for kortene
 // Fullfør victory-condition på exitMaze()
-//  Legg til fiende
 //  Legg til kort/abilities
-//  Legg til progressbar
 
 
 
 function rand(max) {
     // returnerer tilfeldig fra og med 0 til max
     return Math.floor(Math.random()*max);
+}
+function normalize(int) {
+    if (int != 0) {
+        return int/Math.abs(int);
+    }
+    return 0;
 }
 
 function generateDivs(x,y) {
@@ -156,6 +159,9 @@ function look(from_x,from_y) {
                 sprites.forEach(sprite => {
                     if (sprite.x == raycast.x && sprite.y == raycast.y) {
                         drawSprite(sprite);
+                        if (sprite.hasOwnProperty("objective")) {
+                            sprite.objective = [player.x,player.y];
+                        }
                     }
                 });
             } else {
@@ -191,13 +197,16 @@ document.addEventListener("keydown", function(event) {
             exitMaze();
         } else if (event.key == "c") {
             getCard("health");
-        }
+        } else if (event.key == "m") {
+            coins += 1;
+        } 
         isActionActive = true;
     }
 });
 document.addEventListener('keyup', function(event) {
     isActionActive = false;
 });
+
 
 function initBars () {
     let bar = document.querySelector("#progress");
@@ -243,6 +252,14 @@ function updateBars() {
     document.querySelector("#coins").innerText = `Coins ${coins}`;
     previous_health = health
 }
+function activateCards() {
+    reset = {color:"green",max_health:2};
+    Object.assign(player, reset);
+    cards.forEach(card => {
+        card.ability();
+    });
+    console.log(player.max_health);
+}
 function updateCards() {
     const parent = document.querySelector("#cards");
     parent.innerHTML = "";
@@ -277,19 +294,33 @@ function updateCards() {
         button.style.position = "absolute";
         button.style.bottom = "10px";
         button.innerText = "Upgrade";
+        button.addEventListener("click", function(event) {
+            const id = event.target.id;
+            upgradeCard(id[id.length-1]);
+        });
         card_div.appendChild(button);
         parent.appendChild(card_div);
     });
+    activateCards();
+}
+
+function upgradeCard(card_id) {
+    let cost = Math.ceil(1/2*cards[card_id].level**2+1);
+    if (coins >= cost && cards[card_id].level < 9) {
+        coins = coins - cost
+        cards[card_id].level += 1;
+        updateCards();
+    }
 }
 
 function getCard(type) {
-    let card = {"type":type,"level":1};
+    let card = {"type":type,level:1};
     switch (card["type"]) { // gir kortet en funksjon basert på type
         case "health":
             card["description"] = "Increases the player's health.";
             card["img"] = "bilder/health_card.png";
             card.ability = function() {
-                player.max_health += card.level;
+                player.max_health = player.max_health + card.level;
                 initBars();
             }
             break;
@@ -300,6 +331,28 @@ function getCard(type) {
     console.log(cards);
     updateCards();
 }
+
+function enemyMove(sprite) {
+    if (sprite.objective.length == 0 || sprite.x == sprite.objective[0] && sprite.y == sprite.objective[1]) {
+        let directions = [[1,0],[-1,0],[0,1],[0,-1]];
+        for(let i = 0; i < 20; i++) {
+            let check = directions[rand(4)];
+            if (sprite.x+check[0] == sprite.prev_x && sprite.y+check[1] == sprite.prev_y && i > 10) {
+                continue
+            }
+            if (open_positions.some(innerArr => innerArr[0] === sprite.x+check[0] && innerArr[1] === sprite.y+check[1]) == true) {
+                sprite.objective[0] = sprite.x+check[0];
+                sprite.objective[1] = sprite.y+check[1];
+                break;
+            }
+        }
+    }
+    sprite.x += normalize(sprite.objective[0]-sprite.x);
+    sprite.y += normalize(sprite.objective[1]-sprite.y);
+}
+
+
+
 
 function exitMaze() {
     sprites = [];
@@ -324,7 +377,8 @@ let sprites = [];
 let coins = 0;
 let cards = [];
 
-let player = {x:15,y:11,color:"green", max_health: 2, health:2}; //spiller MÅ starte på en celle definert av generateCells()
+let player = {x:15,y:11,color:"green",max_health: 2, health:2}; //spiller MÅ starte på en celle definert av generateCells()
+
 const coin = {
     x: 0,
     y: 0,
@@ -337,10 +391,12 @@ const coin = {
 const trap = {
     x: 0,
     y: 0,
-    color:"red",
+    color:"darkred",
     onCollision: function() {
         sprites.splice(sprites.indexOf(this),1);
-        player.health += -1;
+        if (rand(3) != 2) {
+            player.health += -2;
+        }
     }
 };
 const exit = {
@@ -351,6 +407,26 @@ const exit = {
         exitMaze();
     }
 }
+const enemy = {
+    x:0,
+    y:0,
+    prev_x:0,
+    prev_y:0,
+    color: "red",
+    onCollision: function() {
+        sprites.splice(sprites.indexOf(this),1);
+        player.health += -1;
+    },
+    update: function() {
+        if (this.frames_since_move > 5) {
+            this.frames_since_move = 0;
+            enemyMove(this);
+        }
+        this.frames_since_move += 1;
+    },
+    frames_since_move: 0,
+    objective: []
+};
 
 const grid = {
     x: 33,
@@ -376,6 +452,7 @@ async function run() {
     spawnSpritesOfType(coin,10,5);
     spawnSpritesOfType(trap,2,10);
     spawnSpritesOfType(exit,1,8);
+    spawnSpritesOfType(enemy,1,5);
     grid.generate();
     initBars();
     //console.log(open_positions);
@@ -392,7 +469,11 @@ async function run() {
         sprites.forEach(sprite => {
             if (sprite.x == player.x && sprite.y == player.y) { // Kollisjon med spilleren av sprite
                 sprite.onCollision();
-            }   
+            }
+            if ('update' in sprite) {
+                sprite.update();
+                drawSprite(sprite);
+            }
         })
         drawSprite(player);
         updateBars();
