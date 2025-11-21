@@ -1,5 +1,6 @@
 //To Do:
-// Spawning av kort
+// Viser hvilket nivå man er på
+// Nivå endrer spawn-rates
 // Vis kostnad på upgrade
 // Fullfør victory-condition på exitMaze()
 // Flere kort
@@ -102,8 +103,8 @@ function clean() {
     allDivs.forEach(function(element) {
         element.style.backgroundColor = "black";
         element.style.borderColor = "black";
-        element.style.height = `${600/grid.y}px`;
-        element.style.width = `${900/grid.x}px`;
+        element.style.height = `${500/grid.y}px`;
+        element.style.width = `${750/grid.x}px`;
     });
 }
 function getSpriteByPos(x,y) {
@@ -234,9 +235,7 @@ function updateBars() {
         let part = document.querySelector(`#p${i}`);
         part.style.backgroundColor = "darkslategrey";
     }
-    let previous_health = player.max_health;
-    let health = player.health;
-    if (health < previous_health) {
+    if (player.health != player.previous_health) {
         for (let i = 0; i < player.max_health; i++) {
             let part = document.querySelector(`#h${i}`);
             part.style.backgroundColor = "white";
@@ -245,12 +244,12 @@ function updateBars() {
             let part = document.querySelector(`#h${i}`);
             part.style.backgroundColor = "green";
         }
-        if (health == 0) {
+        if (player.health == 0) {
             death();
         }
     }
     document.querySelector("#coins").innerText = `Coins ${coins}`;
-    previous_health = health
+    player.previous_health = player.health
 }
 function activateCards() {
     reset = {color:"green",max_health:2};
@@ -270,24 +269,24 @@ function updateCards() {
         card_div.style.position = "relative";
         let element = document.createElement("img");
         element.setAttribute("src",card.img);
-        element.setAttribute("height","220px");
-        element.setAttribute("width","130px");
+        element.setAttribute("height","176px");
+        element.setAttribute("width","104px");
         element.style.imageRendering = "pixelated";
         element.style.position = "absolute";
-        element.style.top = "20px";
+        element.style.top = "10px";
         card_div.appendChild(element);
         element = document.createElement("img");
         element.setAttribute("src",`bilder/number_${card.level}.png`);
-        element.setAttribute("height","220px");
-        element.setAttribute("width","130px");
+        element.setAttribute("height","176px");
+        element.setAttribute("width","104px");
         element.style.imageRendering = "pixelated";
         element.style.position = "absolute";
-        element.style.top = "20px";
+        element.style.top = "10px";
         card_div.appendChild(element);
         element = document.createElement("p");
         element.innerText = card.description;
         element.style.position = "absolute";
-        element.style.bottom = "15px";
+        element.style.bottom = "24px";
         card_div.appendChild(element);
         let button = document.createElement("button");
         button.setAttribute("id",`button-card${cards.indexOf(card)}`);
@@ -377,7 +376,7 @@ let sprites = [];
 let coins = 0;
 let cards = [];
 
-let player = {x:15,y:11,color:"green",max_health: 2, health:2}; //spiller MÅ starte på en celle definert av generateCells()
+let player = {x:15,y:11,color:"green",max_health: 2, health:2, previous_health:0}; //spiller MÅ starte på en celle definert av generateCells()
 
 const coin = {
     x: 0,
@@ -395,7 +394,7 @@ const trap = {
     onCollision: function() {
         sprites.splice(sprites.indexOf(this),1);
         if (rand(3) != 2) {
-            player.health += -2;
+            player.health += -1;
         }
     }
 };
@@ -405,6 +404,28 @@ const exit = {
     color:"blue",
     onCollision: function() {
         exitMaze();
+    }
+}
+const card_drop = {
+    x:0,
+    y:0,
+    color: "choral",
+    onCollision: function() {
+        sprites.splice(sprites.indexOf(this),1);
+        let options = ["health"]; //mulig å legge til slik at forskjellige typer har forskjellig sannsynlighet (weights)
+        getCard(options[rand(options.length)]);
+    }
+}
+const medkit = {
+    x:0,
+    y:0,
+    color: "chartreuse",
+    onCollision: function() {
+        if (player.health < player.max_health) {
+            sprites.splice(sprites.indexOf(this),1);
+            player.health += 1;
+        }
+        console.log(player.health);
     }
 }
 const enemy = {
@@ -452,7 +473,9 @@ async function run() {
     spawnSpritesOfType(coin,10,5);
     spawnSpritesOfType(trap,2,10);
     spawnSpritesOfType(exit,1,8);
-    spawnSpritesOfType(enemy,1,5);
+    spawnSpritesOfType(enemy,5,8);
+    spawnSpritesOfType(card_drop,1,10);
+    spawnSpritesOfType(medkit,3,3);
     grid.generate();
     initBars();
     //console.log(open_positions);
