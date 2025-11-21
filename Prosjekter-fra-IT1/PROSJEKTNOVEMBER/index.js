@@ -1,8 +1,8 @@
 //To Do:
-// Ordne fiende oppførsel
+// Spawning av kort
 // Vis kostnad på upgrade
 // Fullfør victory-condition på exitMaze()
-//  Legg til kort/abilities
+// Flere kort
 
 
 
@@ -335,9 +335,9 @@ function getCard(type) {
 function enemyMove(sprite) {
     if (sprite.objective.length == 0 || sprite.x == sprite.objective[0] && sprite.y == sprite.objective[1]) {
         let directions = [[1,0],[-1,0],[0,1],[0,-1]];
-        for(let i = 0; i < 20; i++) {
+        for(let i = 0; i < 10; i++) {
             let check = directions[rand(4)];
-            if (sprite.x+check[0] == sprite.prev_x && sprite.y+check[1] == sprite.prev_y && i > 10) {
+            if (sprite.x+check[0] == sprite.prev_x && sprite.y+check[1] == sprite.prev_y && i < 5) {
                 continue
             }
             if (open_positions.some(innerArr => innerArr[0] === sprite.x+check[0] && innerArr[1] === sprite.y+check[1]) == true) {
@@ -472,7 +472,6 @@ async function run() {
             }
             if ('update' in sprite) {
                 sprite.update();
-                drawSprite(sprite);
             }
         })
         drawSprite(player);
