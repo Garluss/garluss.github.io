@@ -54,6 +54,12 @@ html, body {
     margin-left: 20px;
     border: solid rgb(0, 0, 0) 1px;
 }
+#c-f {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 170px;
+}
 main {
     display: flex;
     margin-top: 5px;

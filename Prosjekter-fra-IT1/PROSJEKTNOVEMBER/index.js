@@ -1,5 +1,4 @@
 //To Do:
-// Viser hvilket nivå man er på
 // Nivå endrer spawn-rates
 // Vis kostnad på upgrade
 // Fullfør victory-condition på exitMaze()
@@ -181,6 +180,7 @@ function attemptMove(sprite,dx,dy) {
     }
 }
 let isActionActive = false;
+let interacting = false;
 document.addEventListener("keydown", function(event) {
     if (!isActionActive) {
         if (event.key == "ArrowRight" || event.key == "d") {
@@ -195,17 +195,14 @@ document.addEventListener("keydown", function(event) {
             playing = false;
             console.log("Session terminated.");
         } else if (event.key == "e") {
-            exitMaze();
-        } else if (event.key == "c") {
-            getCard("health");
-        } else if (event.key == "m") {
-            coins += 1;
-        } 
+            interacting = true;
+        }
         isActionActive = true;
     }
 });
 document.addEventListener('keyup', function(event) {
     isActionActive = false;
+    interacting = false;
 });
 
 
@@ -225,8 +222,11 @@ function initBars () {
         let part = document.createElement("div");
         part.setAttribute("id",`h${i}`);
         part.style.backgroundColor = "green";
+        part.style.border = "solid 1px black";
         bar.appendChild(part);
     }
+    floor += 1;
+    document.querySelector("#floor").innerText = `Floor ${floor}`;
 }
 function updateBars() {
     let percent = previously_seen.length/open_positions.length;
@@ -248,7 +248,7 @@ function updateBars() {
             death();
         }
     }
-    document.querySelector("#coins").innerText = `Coins ${coins}`;
+    document.querySelector("#coins").innerText = `Coins: ${coins}`;
     player.previous_health = player.health
 }
 function activateCards() {
@@ -374,6 +374,7 @@ function death() {
 let sprites = [];
 
 let coins = 0;
+let floor = 0;
 let cards = [];
 
 let player = {x:15,y:11,color:"green",max_health: 2, health:2, previous_health:0}; //spiller MÅ starte på en celle definert av generateCells()
@@ -387,23 +388,14 @@ const coin = {
         coins += 1;
     }
 };
-const trap = {
-    x: 0,
-    y: 0,
-    color:"darkred",
-    onCollision: function() {
-        sprites.splice(sprites.indexOf(this),1);
-        if (rand(3) != 2) {
-            player.health += -1;
-        }
-    }
-};
 const exit = {
     x: 0,
     y: 0,
     color:"blue",
     onCollision: function() {
-        exitMaze();
+        if (interacting == true) {
+            exitMaze();
+        }
     }
 }
 const card_drop = {
@@ -471,9 +463,8 @@ async function run() {
     open_positions = generateMaze(player.x,player.y);
     previously_seen = [];
     spawnSpritesOfType(coin,10,5);
-    spawnSpritesOfType(trap,2,10);
     spawnSpritesOfType(exit,1,8);
-    spawnSpritesOfType(enemy,5,8);
+    spawnSpritesOfType(enemy,3,8);
     spawnSpritesOfType(card_drop,1,10);
     spawnSpritesOfType(medkit,3,3);
     grid.generate();
