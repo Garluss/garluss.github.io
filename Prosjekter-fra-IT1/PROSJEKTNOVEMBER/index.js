@@ -119,7 +119,7 @@ function getSpriteByPos(x,y) {
 // Lager kopier og plasserer dem tilfeldig rundt, mengde og minimum distanse til spiller er også med
 function spawnSpritesOfType(sprite_type,amount,min_dist) {
     for (let i = 0; i < amount; i++) {
-        let copy = Object.assign({},sprite_type);
+        let copy = Object.assign({},sprite_type);;
         console.log(copy, sprite_type);
         // finner mulige posisjoner, prøver kun 400 ganger
         for (let i = 0; i < 400; i++) {
@@ -181,7 +181,6 @@ function attemptMove(sprite,dx,dy) {
     }
 }
 let isActionActive = false;
-let interacting = false;
 document.addEventListener("keydown", function(event) {
     if (!isActionActive) {
         if (event.key == "ArrowRight" || event.key == "d") {
@@ -196,7 +195,7 @@ document.addEventListener("keydown", function(event) {
             playing = false;
             console.log("Session terminated.");
         } else if (event.key == "e") {
-            interacting = true;
+            exitMaze();
         } else if (event.key == "c") {
             getCard("health");
         } else if (event.key == "m") {
@@ -207,7 +206,6 @@ document.addEventListener("keydown", function(event) {
 });
 document.addEventListener('keyup', function(event) {
     isActionActive = false;
-    interacting = false;
 });
 
 
@@ -400,24 +398,12 @@ const trap = {
         }
     }
 };
-console.log(window.innerWidth);
 const exit = {
     x: 0,
     y: 0,
     color:"blue",
     onCollision: function() {
-        //let p = document.querySelector("#popup");
-        //if (p.innerText=="") {
-        //    p.innerText = "Press 'e' to interact.";
-        //    p.style.color = "white";
-        //    p.style.top = `${250+500/grid.y*this.y}px`;
-        //    p.style.left = `${(window.innerWidth/2-750/2)+750/grid.x*this.x}px`;
-        //}
-        //console.log(player.y != this.y);
-        //setTimeout(function(object) { if (player.x != object.x || player.y != object.y) {p.innerText="";} },1000,this);
-        if (interacting == true) {
-            exitMaze();
-        }
+        exitMaze();
     }
 }
 const card_drop = {
@@ -487,11 +473,9 @@ async function run() {
     spawnSpritesOfType(coin,10,5);
     spawnSpritesOfType(trap,2,10);
     spawnSpritesOfType(exit,1,8);
-    spawnSpritesOfType(enemy,2,8);
+    spawnSpritesOfType(enemy,5,8);
     spawnSpritesOfType(card_drop,1,10);
     spawnSpritesOfType(medkit,3,3);
-    let copy = Object.assign(exit,{x:player.x,y:player.y});
-    sprites.push(copy);
     grid.generate();
     initBars();
     //console.log(open_positions);
