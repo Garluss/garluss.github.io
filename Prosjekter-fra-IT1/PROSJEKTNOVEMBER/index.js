@@ -2,7 +2,7 @@
 // Nivå endrer spawn-rates
 // Vis kostnad på upgrade
 // Fullfør victory-condition på exitMaze()
-// Flere kort
+// Flere kort (gun)
 
 
 
@@ -30,6 +30,7 @@ function generateDivs(x,y) {
         }
     }
 }
+document.addEventListener
 function generateCells() {
     let cells = [];
     for (let iy = 0; iy < grid.y/2-1; iy++) {
@@ -196,6 +197,8 @@ document.addEventListener("keydown", function(event) {
             console.log("Session terminated.");
         } else if (event.key == "e") {
             interacting = true;
+        } else if (event.key == "c") {
+            getCard("health");
         }
         isActionActive = true;
     }
@@ -221,11 +224,10 @@ function initBars () {
     for (let i = 0; i < player.max_health; i++) {
         let part = document.createElement("div");
         part.setAttribute("id",`h${i}`);
-        part.style.backgroundColor = "green";
+        part.style.backgroundColor = "white";
         part.style.border = "solid 1px black";
         bar.appendChild(part);
     }
-    floor += 1;
     document.querySelector("#floor").innerText = `Floor ${floor}`;
 }
 function updateBars() {
@@ -235,21 +237,15 @@ function updateBars() {
         let part = document.querySelector(`#p${i}`);
         part.style.backgroundColor = "darkslategrey";
     }
-    if (player.health != player.previous_health) {
-        for (let i = 0; i < player.max_health; i++) {
-            let part = document.querySelector(`#h${i}`);
-            part.style.backgroundColor = "white";
-        }
-        for (let i = 0; i < player.health; i++) {
-            let part = document.querySelector(`#h${i}`);
-            part.style.backgroundColor = "green";
-        }
-        if (player.health == 0) {
-            death();
-        }
+    for (let i = 0; i < player.max_health; i++) {
+        let part = document.querySelector(`#h${i}`);
+        part.style.backgroundColor = "white";
+    }
+    for (let i = 0; i < player.health; i++) {
+        let part = document.querySelector(`#h${i}`);
+        part.style.backgroundColor = "green";
     }
     document.querySelector("#coins").innerText = `Coins: ${coins}`;
-    player.previous_health = player.health
 }
 function activateCards() {
     reset = {color:"green",max_health:2};
@@ -296,6 +292,12 @@ function updateCards() {
         button.addEventListener("click", function(event) {
             const id = event.target.id;
             upgradeCard(id[id.length-1]);
+        });
+        button.addEventListener("mouseover", function(event) {
+            button.innerText = `Cost: ${Math.ceil(1/2*card.level**2+1)}c`;
+        });
+        button.addEventListener("mouseout", function(event) {
+            button.innerText = "Upgrade";
         });
         card_div.appendChild(button);
         parent.appendChild(card_div);
@@ -377,7 +379,7 @@ let coins = 0;
 let floor = 0;
 let cards = [];
 
-let player = {x:15,y:11,color:"green",max_health: 2, health:2, previous_health:0}; //spiller MÅ starte på en celle definert av generateCells()
+let player = {x:15,y:11,color:"green",max_health: 2, health:2}; //spiller MÅ starte på en celle definert av generateCells()
 
 const coin = {
     x: 0,
@@ -401,7 +403,7 @@ const exit = {
 const card_drop = {
     x:0,
     y:0,
-    color: "choral",
+    color: "orange",
     onCollision: function() {
         sprites.splice(sprites.indexOf(this),1);
         let options = ["health"]; //mulig å legge til slik at forskjellige typer har forskjellig sannsynlighet (weights)
@@ -460,6 +462,7 @@ let previously_seen = [];
 console.log(sprites);
 
 async function run() {
+    floor += 1;
     open_positions = generateMaze(player.x,player.y);
     previously_seen = [];
     spawnSpritesOfType(coin,10,5);
@@ -469,7 +472,6 @@ async function run() {
     spawnSpritesOfType(medkit,3,3);
     grid.generate();
     initBars();
-    //console.log(open_positions);
     while (playing == true) {
         // mulig å effektivisere slik at kun bevegende ting blir renset opp i, mye færre operasjoner da
         clean();
@@ -490,6 +492,9 @@ async function run() {
         })
         drawSprite(player);
         updateBars();
+        if (player.health == 0) {
+            death();
+        }
         await sleep(1000/FPS);
     }
 }

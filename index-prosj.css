@@ -8,11 +8,13 @@ body {
 }
 main {
     text-align: center;
+    width: 100vw;
 }
 #visning {
     display: flex;
-    justify-content: space-around;
     flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
 }
 #visning div {
     background-color:ivory;
@@ -27,6 +29,9 @@ main {
     left: 70px;
 }
 .crop-boks {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin: auto;
     margin-top: 30px;
     border: solid black 2px;
