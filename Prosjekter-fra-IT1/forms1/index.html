@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main>
+        <form id="skjema">
+            <label for="navn">Navn:</label>
+            <input id="navn" type="text" name="navn" placeholder="Petter Patt" required>
+
+            <label for="epost">E-post:</label>
+            <input id="epost" type="email" id="epost" name="email" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" placeholder="email@domain.com" required>
+
+            <label for="tlf">Telefonnummer:</label>
+            <input id="tlf" type="tel" name="tlf" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" placeholder="987-65-432" required>
+
+            <fieldset>
+                <legend>Adresse:</legend>
+                <label for="gate">Gatenavn og husnummer:</label>
+                <input id="gate" type="text" name="gate" pattern="[A-Za-z]{1,} [0-9]{1,}" placeholder="Skomakergate 10" required>
+                <label for ="postnummer">Postnummer:</label>
+                <input id="postnummer" type="text" name="postnummer" pattern="[0-9]{4}" placeholder="5555" required>
+                <label for="by">By:</label>
+                <input id="by" type="text" name="by" pattern="[A-Za-z]{1,}" placeholder="Bergen" required>
+            </fieldset>
+
+            <label for="billett">Velg billett:</label>
+            <select id="billett" name="billett" required>
+                <option value="standard">Standard</option>
+                <option value="vip">VIP</option>
+                <option value="student">Student</option>
+            </select>
+
+            <label for="dato">Velg tilgjengelig dato:</label>
+            <input id="dato" type="date" name="dato" min="2025-12-15" max="2025-12-19" required>
+
+            <button type="submit">Send inn</button>
+        </form>
+    </main>
+</body>
+</html>
