@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav>
+        <a href="#">Hjem</a>
+        <a href="#">Mer om oss</a>
+        <a href="#">Laiver</a>
+        <a href="#">Kontakt</a>
+    </nav>
+    <div id="fane">
+        <img src="{{ url_for('static', filename='bg.jpg') }}" width="2300px">
+        <h1>Omertà</h1>
+    </div>
+    <main>
+        <div class="innhold">
+            <p>Omertà er en frivillig forening basert i Bergen som har som formål å skape interaktivt rollespill for ungdom.</p>
+            <p>For å gjøre at flest folk kan delta, prøver vi å gjøre arrangementene våre så billig som vi klarer.</p>
+        </div>
+    </main>
+</body>
+</html>
