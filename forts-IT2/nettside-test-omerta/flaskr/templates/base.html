@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% block topp %}
     <meta charset="UTF-8">
-    <title>Document</title>
+    <title>{% block tittel %} {% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    {% endblock %}
 </head>
 <body>
     <nav>
@@ -14,12 +16,11 @@
     </nav>
     <div id="fane">
         <img src="{{ url_for('static', filename='bg.jpg') }}" width="2300px">
-        <h1>Omertà</h1>
+        <h1>{{ self.tittel() }}</h1>
     </div>
     <main>
         <div class="innhold">
-            <p>Omertà er en frivillig forening basert i Bergen som har som formål å skape interaktivt rollespill for ungdom.</p>
-            <p>For å gjøre at flest folk kan delta, prøver vi å gjøre arrangementene våre så billig som vi klarer.</p>
+            {% block innhold %} {% endblock %}
         </div>
     </main>
 </body>

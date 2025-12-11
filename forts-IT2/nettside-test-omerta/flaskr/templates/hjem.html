@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block tittel %}Omertà{% endblock %}
+
+{% block topp %}
+    {{ super() }}
+    <style type="text/css">
+        .important { color: #336699; }
+    </style>
+{% endblock %}
+
+{% block innhold %}
+    <p>Omertà er en frivillig forening basert i Bergen som har som formål å skape interaktivt rollespill for ungdom.</p>
+    <p>For å gjøre at flest folk kan delta, prøver vi å gjøre arrangementene våre så billig som vi klarer.</p>
+{% endblock %}
