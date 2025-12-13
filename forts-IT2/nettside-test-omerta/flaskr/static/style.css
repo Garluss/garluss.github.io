@@ -2,8 +2,11 @@ html, body {
     padding: 0;
     margin: 0;
 }
+body {
+    height: 100vh;
+}
 nav {
-    background-color: black;
+    background-color: rgb(34, 34, 34);
     display: block;
     padding: 10px;
 }
@@ -20,7 +23,8 @@ nav a:hover {
 }
 main {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
     border: 1px solid black;
 }
 #fane {
@@ -43,4 +47,13 @@ main {
 }
 .innhold {
     margin-top: 10px;
+    font-size: 20px;
+}
+#bunn {
+    margin-top: 30px;
+    background-color: rgb(34, 34, 34);
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+    color: white;
 }
