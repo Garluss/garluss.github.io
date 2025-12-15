@@ -13,6 +13,15 @@
         .pers {
             display: flex;
             justify-content: space-around;
+            margin-top: 30px;
+            width: 1000px;
+        }
+        .pers img {
+            border: solid 2px black;
+            border-radius: 15px;
+        }
+        main {
+            text-align: center;
         }
     </style>
 {% endblock %}
@@ -21,11 +30,46 @@
     <p>Staben til Omertà er en grei gjeng med ulike personligheter og bakgrunner.</p>
     <div id="folk">
         <div class="pers">
-            <img>
+            <img src="{{ url_for('static', filename='andrea_pfp.jpg') }}" width="300px" height="300px">
             <div>
                 <h2>Andrea Lone Hansen</h2>
                 <p> ... </p>
             </div>
+        </div>
+        <div class="pers">
+            <div>
+                <h2>Daniel Olsen</h2>
+                <p> ... </p>
+            </div>
+            <img src="{{ url_for('static', filename='daniel_pfp.jpg') }}" width="300px" height="300px">
+        </div>
+        <div class="pers">
+            <img src="{{ url_for('static', filename='el_pfp.jpg') }}" width="300px" height="300px">
+            <div>
+                <h2>El Revheim Birkeland</h2>
+                <p> ... </p>
+            </div>
+        </div>
+        <div class="pers">
+            <div>
+                <h2>Halvard Nesbø</h2>
+                <p> ... </p>
+            </div>
+            <img src="{{ url_for('static', filename='halvard_pfp.jpg') }}" width="300px" height="300px">
+        </div>
+        <div class="pers">
+            <img src="{{ url_for('static', filename='scott_pfp.jpg') }}" width="300px" height="300px">
+            <div>
+                <h2>Scott Martin Ledahl</h2>
+                <p> ... </p>
+            </div>
+        </div>
+        <div class="pers">
+            <div>
+                <h2>Una Glambek</h2>
+                <p> ... </p>
+            </div>
+            <img src="{{ url_for('static', filename='una_pfp.jpeg') }}" width="300px" height="300px">
         </div>
     </div>
 {% endblock %}
