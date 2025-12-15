@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block tittel %}Mer om oss{% endblock %}
+
+{% block topp %}
+    {{ super() }}
+    <style type="text/css">
+        #folk {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        .pers {
+            display: flex;
+            justify-content: space-around;
+        }
+    </style>
+{% endblock %}
+
+{% block innhold %}
+    <p>Staben til Omertà er en grei gjeng med ulike personligheter og bakgrunner.</p>
+    <div id="folk">
+        <div class="pers">
+            <img>
+            <div>
+                <h2>Andrea Lone Hansen</h2>
+                <p> ... </p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

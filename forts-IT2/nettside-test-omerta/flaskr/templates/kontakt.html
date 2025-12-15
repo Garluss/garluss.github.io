@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block tittel %}Kontakt oss{% endblock %}
+
+{% block topp %}
+    {{ super() }}
+    <style type="text/css">
+        h3 {
+            margin-top: 10px;
+        }
+    </style>
+{% endblock %}
+
+{% block innhold %}
+    <h3>Epost</h3>
+    <p>Hovedsakelig: omerta.forening@gmail.com</p>
+    <p>Alternativ: daniel.boenes@gmail.com</p>
+    <h3>Telefon (epost anbefalt)</h3>
+    <p>+47 401 66 257</p>
+{% endblock %}

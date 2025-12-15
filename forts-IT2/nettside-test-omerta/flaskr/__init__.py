@@ -8,5 +8,13 @@ app.secret_key = '_test46'
 def home():
     return render_template("hjem.html")
 
+@app.route("/mer")
+def mer():
+    return render_template("omoss.html")
+
+@app.route("/kontakt")
+def kontakt():
+    return render_template("kontakt.html")
+
 if __name__ == '__main__':
     app.run(debug=True)
