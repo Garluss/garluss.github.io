@@ -6,15 +6,18 @@
     {{ super() }}
     <style type="text/css">
         #folk {
-            margin-top: 20px;
             display: flex;
             flex-direction: column;
         }
         .pers {
             display: flex;
             justify-content: space-around;
-            margin-top: 30px;
+            margin-bottom: 30px;
+            padding-top: 15px;
+            padding-bottom: 15px;
             width: 1000px;
+            background-color: rgb(231, 230, 225);
+            border-radius: 20px;
         }
         .pers img {
             border: solid 2px black;
@@ -27,7 +30,27 @@
 {% endblock %}
 
 {% block innhold %}
-    <p>Staben til Omertà er en grei gjeng med ulike personligheter og bakgrunner.</p>
+    <div>
+        <p>
+            Omertà driver hovedsakelig laiver for yngre deltakere (aldre 15-25). Likevel er det lagt opp til <br>
+            deltagelse for eldre laivere, da er kravet at personen må være kjent på forhånd. Dette er for å sikre <br>
+            et godt og trygt miljø.
+        </p>
+        <h2>Spillestil og laiv</h2>
+        <p>
+            Et av formålene til foreningen er å utforske ulike konsepter og stiler som ikke er funnet så mye av i <br>
+            det etablerte rollespillmiljøet.
+        </p>
+        <p>
+            Generelt legger Omertà vekt på løse regler og stor spillerfrihet. Dette kommer fram ved regelen og <br>
+            spillestilen: "What you see is what you get". Regelen går ut på at det som tilsynelatende foregår på laiven, <br>
+            skal man spille på og reagere etter. Dette gir handlingen stor fleksibilitet.
+        </p>
+            Videre interesserer oss i staben oss for historie. Dette kommer til uttrykk ved hva slags sjanger laivene <br>
+            har hovedsakelig, nemlig historisk inspirert laiv.
+        </p>
+    </div>
+    <h1>Staben</h1>
     <div id="folk">
         <div class="pers">
             <img src="{{ url_for('static', filename='andrea_pfp.jpg') }}" width="300px" height="300px">
