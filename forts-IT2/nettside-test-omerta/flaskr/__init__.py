@@ -12,6 +12,10 @@ def home():
 def mer():
     return render_template("omoss.html")
 
+@app.route("/laiver")
+def laiver():
+    return render_template("laiver.html")
+
 @app.route("/kontakt")
 def kontakt():
     return render_template("kontakt.html")

@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block tittel %}Laiver{% endblock %}
+
+{% block topp %}
+    {{ super() }}
+    <style type="text/css">
+        main {
+            text-align: center;
+            background-color: rgb(34, 34, 34);
+        }
+        #lenker {
+            display: flex;
+            flex-direction: column;
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+        #lenker a {
+            color: white;
+            font-size: 40px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            text-decoration: none;
+        }
+        #lenker a:hover {
+            color: rgb(107, 107, 107);
+        }
+        #bunn {
+            margin-top: 0;
+        }
+    </style>
+{% endblock %}
+
+{% block innhold %}
+    <div id="lenker">
+        <a href="#">Diverse laiver 2025</a>
+        <a href="#">Blood of the Highlands</a>
+    </div>
+{% endblock %}
