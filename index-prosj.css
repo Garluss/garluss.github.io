@@ -21,6 +21,7 @@ main {
     height: 400px;
     width: 300px;
     position: relative;
+    margin-bottom: 10px;
 }
 #visning div button {
     position: absolute;
