@@ -1,7 +1,5 @@
 {% extends 'base.html' %}
 
-{% block tittel %}Mer om oss{% endblock %}
-
 {% block topp %}
     {{ super() }}
     <style type="text/css">
@@ -27,6 +25,11 @@
             text-align: center;
         }
     </style>
+{% endblock %}
+
+{% block fane %}
+    <img src="{{ url_for('static', filename='bg.jpg') }}" width="2300px">
+    <h1>Mer om oss</h1>
 {% endblock %}
 
 {% block innhold %}

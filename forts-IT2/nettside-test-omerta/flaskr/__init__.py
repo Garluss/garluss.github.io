@@ -16,6 +16,10 @@ def mer():
 def laiver():
     return render_template("laiver.html")
 
+@app.route("/laiver/both")
+def both():
+    return render_template("both.html")
+
 @app.route("/kontakt")
 def kontakt():
     return render_template("kontakt.html")

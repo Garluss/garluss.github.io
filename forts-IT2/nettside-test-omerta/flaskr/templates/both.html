@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block topp %}
+    {{ super() }}
+    <style type="text/css">
+        main {
+            display: flex;
+            flex-direction: column;
+        }
+        .seksjon {
+            display: flex;
+            justify-content: center;
+            text-align: center;
+            margin-top: 30px;
+        }
+    </style>
+{% endblock %}
+
+{% block fane %}
+    <img src="{{ url_for('static', filename='both.jpg') }}" width="2300px">
+    <h1>Blood of the Highlands</h1>
+{% endblock %}
+
+
+{% block innhold %}
+    <div class="seksjon">
+        <h2>Hva er BotH?</h2>
+        <p>
+            Blood of the Highlands inneholder våre største og mest populære laiver. <br>
+            Denne populariteten kommer av den interessante settingen og av temaene som dekkes. <br>
+            Serien følger det skotske folket gjennom midten av 1700-tallet og dekker <br>
+            temaer som opprør, undertrykkelse, familieliv, fattigdom, sosiale forskjeller og tradisjoner.
+        </p>
+    </div>
+
+{% endblock %}

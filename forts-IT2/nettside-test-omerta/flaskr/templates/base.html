@@ -3,7 +3,7 @@
 <head>
     {% block topp %}
     <meta charset="UTF-8">
-    <title>{% block tittel %} {% endblock %}</title>
+    <title>Foreningen Omertà</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     {% endblock %}
 </head>
@@ -15,8 +15,7 @@
         <a href="/kontakt">Kontakt</a>
     </nav>
     <div id="fane">
-        <img src="{{ url_for('static', filename='bg.jpg') }}" width="2300px">
-        <h1>{{ self.tittel() }}</h1>
+        {% block fane %} {% endblock %}
     </div>
     <main>
         <div class="innhold">

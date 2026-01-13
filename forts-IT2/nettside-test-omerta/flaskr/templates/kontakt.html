@@ -1,7 +1,5 @@
 {% extends 'base.html' %}
 
-{% block tittel %}Kontakt oss{% endblock %}
-
 {% block topp %}
     {{ super() }}
     <style type="text/css">
@@ -13,6 +11,11 @@
             font-size: 24px;
         }
     </style>
+{% endblock %}
+
+{% block fane %}
+    <img src="{{ url_for('static', filename='bg.jpg') }}" width="2300px">
+    <h1>Kontakt oss</h1>
 {% endblock %}
 
 {% block innhold %}

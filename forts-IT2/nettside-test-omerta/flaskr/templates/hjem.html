@@ -1,7 +1,5 @@
 {% extends 'base.html' %}
 
-{% block tittel %}Omertà{% endblock %}
-
 {% block topp %}
     {{ super() }}
     <style type="text/css">
@@ -12,6 +10,11 @@
             margin-top: 50px;
         }
     </style>
+{% endblock %}
+
+{% block fane %}
+    <img src="{{ url_for('static', filename='bg.jpg') }}" width="2300px">
+    <h1>Omertà</h1>
 {% endblock %}
 
 {% block innhold %}
