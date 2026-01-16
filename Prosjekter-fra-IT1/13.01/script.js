@@ -11,7 +11,8 @@ document.querySelector("#ord").addEventListener("input", function(event) {
 });
 
 function start(event) {
-    skyt.play();
+    const soundClone = skyt.cloneNode(true);
+    soundClone.play();
     event.preventDefault();
     let inn = document.querySelector("#ord").value;
     hentDef(inn);
