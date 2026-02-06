@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Rom</title>
+</head>
+<script>
+    const ut = document.querySelector("#meldinger");
+
+    async function hent() {
+        const res = await fetch("/hentMeldinger");
+        const data = await res.json();
+
+        for (let melding of data) {
+            let m = document.createElement("p");
+            m.innerText = `${melding.melding}`;
+            ut.appendChild(m);
+        }
+    }
+</script>
+<body>
+    <main>
+        <h1>Chættis scheiss</h1>
+        <div id="meldinger">
+            
+        </div>
+        <form id="skjema">
+            <label for="navn">Navn:</label>
+            <input type="text" id="navn" required>
+
+            <label for="melding">Melding:</label>
+            <input type="text" id="melding" required>
+    
+            <button type="submit">Send melding</button>
+</form>
+    </main>
+</body>
+</html>
