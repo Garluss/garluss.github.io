@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Forms test</title>
+</head>
+<body>
+    <form id="skjema">
+        <label for="navn">Navn</label>
+        <input id="navn" type="text" placeholder="Jon Leslie" required>
+        <button id="send" type="submit">...</button>
+    </form>
+    <script>
+    const skjema = document.querySelector("#skjema");
+
+    skjema.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        const navn = document.querySelector("#navn");
+
+        console.log(navn.value);
+    });
+
+</script>    
+</body>
+</html>
