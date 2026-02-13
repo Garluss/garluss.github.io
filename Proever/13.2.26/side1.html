@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registrer</title>
+    <script src="script1.js" defer></script>
+</head>
+<body>
+    <style>
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        main form {
+            display: flex;
+            flex-direction: column;
+            width: 300px;
+        }
+    </style>
+    <main>
+        <form id="skjema">
+            <label for="fornavn">Fornavn:</label>
+            <input id="fornavn" type="text" required>
+            <label for="etternavn">Etternavn:</label>
+            <input id="etternavn" type="text" required>
+            <label for="epost">E-post:</label>
+            <input id="epost" type="email" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" required>
+            <label for="passord">Passord:</label>
+            <input id="passord" type="password" required>
+            <label for="rabatt">Rabattkode (valgfri):</label>
+            <input id="rabatt" type="text" pattern="[0-9]{5}">
+            <button type="submit">Registrer</button>
+        </form>
+        <div id="ut"></div>
+    </main>
+</body>
+</html>
