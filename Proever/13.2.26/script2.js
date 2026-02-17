@@ -23,20 +23,23 @@ function vis(data) {
         let sider = document.createElement("p");
         dato.innerText = "Utgitt: " + bok.released.slice(0, 10);
         sider.innerText = "Antall sider: " + bok.numberOfPages;
+        ddcontent.style.display = "none"; //skuler info til å begynne med
         ddcontent.appendChild(dato);
         ddcontent.appendChild(sider);
-        ddcontent.style.display = "none"; //skuler info til å begynne med
         tittel.appendChild(ddcontent);
+        tittel.setAttribute("class","tittel-knapp");
         liste.appendChild(inst);
     }
 }
 
 function klikk(event) {
-    let ddcontent = event.target.firstElementChild; //gir første barn til knapp-elementet
-    if (ddcontent.getAttribute("style") == "display: none;") {
-        ddcontent.style.display = "block";
-    } else {
-        ddcontent.style.display = "none";
+    if (event.target.getAttribute("class") == "tittel-knapp") {
+        let ddcontent = event.target.firstElementChild; //gir første barn til knapp-elementet
+        if (ddcontent.style.display == "none") {
+            ddcontent.style.display = "block";
+        } else {
+            ddcontent.style.display = "none";
+        }
     }
 }
 
