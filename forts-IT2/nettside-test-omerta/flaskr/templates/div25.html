@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block topp %}
+    {{ super() }}
+    <style type="text/css">
+        main {
+            display: flex;
+            flex-direction: column;
+        }
+        .seksjon {
+            justify-content: center;
+            text-align: center;
+            margin-top: 30px;
+        }
+        .laiv {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+            margin-top: 40px;
+            background-color: antiquewhite;
+            padding: 30px;
+        }
+    </style>
+{% endblock %}
+
+{% block fane %}
+    <img src="{{ url_for('static', filename='2025.jpg') }}" width="2300px">
+    <h1>2025</h1>
+{% endblock %}
+
+
+{% block innhold %}
+    <div class="seksjon">
+        <p>
+            Dette er en oversikt over diverse laiver Omertà arrangerte i året 2025. <br>
+            Laiver som vises her er utenom de større laiv-seriene.
+        </p>
+    </div>
+    <div class="laiv">
+        <h2>Mafialaiven</h2>
+        <h3>27. februar 2025</h3>
+        <p>
+            Tre store mafiafamilier: Salieri, Caruso og Romano møter for å diskutere <br>
+            den skiftende politiske og økonomiske situasjonen. Møtet dreier seg i hovedsak om <br>
+            de farlige, men profitable nye narkotiske stoffene på markedet. Romano, familien som kalte <br>
+            inn møtet, ønsker å løse konflikten diplomatisk og fredelig slik at de kan fortsette <br>
+            den ekspansive handelen sin med de andre familiene. Carusofamilien, ung og voldelig, <br>
+            ønsker å få etablert seg gjennom handelen av dopet. Salieri, den eldste og størte av de tre, <br>
+            vil opprettholde sitt grep på den kriminelle verden.
+        </p>
+        <p>
+            Federale agenter blir innblandet i konflikten. Utfallet er blodig.
+        </p>
+    </div>
+    <div class="laiv">
+        <h2>FN-laiven</h2>
+        <h3>13. september 2025</h3>
+        <p>
+
+        </p>
+    </div>
+{% endblock %}

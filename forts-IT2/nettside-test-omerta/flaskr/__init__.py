@@ -20,6 +20,10 @@ def laiver():
 def both():
     return render_template("both.html")
 
+@app.route("/laiver/2025")
+def div25():
+    return render_template("div25.html")
+
 @app.route("/kontakt")
 def kontakt():
     return render_template("kontakt.html")
