@@ -17,17 +17,24 @@
             margin-top: 30px;
         }
         #neste {
+            position: relative;
             display: flex;
             justify-content: center;
             width: 500px;
             height: 400px;
             background-color: black;
             overflow: hidden;
+            border-radius: 15px;
+        }
+        #neste p {
+            position: absolute;
+            color: white;
+            font-size: 20px;
         }
         #neste img {
             object-fit: cover;
             height: 100%;
-            opacity: 0.9;
+            opacity: 0.8;
             filter: blur(5px);
         }
     </style>
@@ -55,9 +62,23 @@
         </p>
     </div>
 
+    <h2>Neste laiv:</h2>
     <div id="neste">
         <img src="{{ url_for('static', filename='nestelaiv/bilde.jpg') }}">
+        <p id="navn" style="font-size: 30px; top:60px"></p>
+        <p id="tillegg" style="top: 150px"></p>
     </div>
+    <script>
+        const infodict = {{info|tojson}};
+        const parsed = JSON.parse(infodict);
+        if (typeof parsed == "object") {
+            document.getElementById("navn").innerText = parsed.navn;
+            document.getElementById("tillegg").innerText = `${parsed.serie} \n ${parsed.dato} \n ${parsed.beskrivelse}`;
+        } else {
+            document.getElementById("navn").innerText = "Ingen kommende laiv.";
+        }
+
+    </script>
 
     <div class="seksjon">
         <h2>Sosiale medier</h2>

@@ -6,7 +6,13 @@ app.secret_key = '_test46'
 
 @app.route("/")
 def home():
-    return render_template("hjem.html")
+    try:
+        with open("static/nestelaiv/info.json", encoding='utf-8') as f:
+            innhold = f.read()
+            print(innhold)
+    except FileNotFoundError:
+        innhold = "Ingen kommende laiv."
+    return render_template("hjem.html", info=innhold)
 
 @app.route("/mer")
 def mer():
