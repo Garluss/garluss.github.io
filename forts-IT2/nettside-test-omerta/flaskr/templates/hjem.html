@@ -6,8 +6,29 @@
         main {
             text-align: center;
         }
+        .innhold {
+            margin-top: 10px;
+            font-size: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
         .seksjon {
-            margin-top: 50px;
+            margin-top: 30px;
+        }
+        #neste {
+            display: flex;
+            justify-content: center;
+            width: 500px;
+            height: 400px;
+            background-color: black;
+            overflow: hidden;
+        }
+        #neste img {
+            object-fit: cover;
+            height: 100%;
+            opacity: 0.9;
+            filter: blur(5px);
         }
     </style>
 {% endblock %}
@@ -18,10 +39,6 @@
 {% endblock %}
 
 {% block innhold %}
-
-    <div id="neste">
-
-    </div>
 
     <div class="seksjon">
         <p>Omertà er en frivillig forening basert i Bergen som har som formål å skape interaktivt rollespill for ungdom.</p>
@@ -36,6 +53,10 @@
             Det er som å fremføre et teaterstykke uten en forhåndsbestemt slutt, <br>
             imens man både er skuespiller og publikum.
         </p>
+    </div>
+
+    <div id="neste">
+        <img src="{{ url_for('static', filename='nestelaiv/bilde.jpg') }}">
     </div>
 
     <div class="seksjon">
