@@ -39,6 +39,9 @@
 {% endblock %}
 
 {% block innhold %}
+
+    <a id="påmelding" target="_blank"></a>
+
     <div id="praktisk">
         <h2 id="serie"></h2>
         <h2 id="dato"></h2>
@@ -49,8 +52,6 @@
         <h3 id="mer-tittel"></h3>
         <p id="lbeskrivelse"></p>
     </div>
-
-    <a id="påmelding"></a>
 
     <script>
         const infodict = {{info|tojson}};

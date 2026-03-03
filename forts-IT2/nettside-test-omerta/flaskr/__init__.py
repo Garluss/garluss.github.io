@@ -9,7 +9,6 @@ def home():
     try:
         with open("static/nestelaiv/info.json", encoding='utf-8') as f:
             innhold = f.read()
-            print(innhold)
     except FileNotFoundError:
         innhold = '{"navn":"Ingen kommende laiv."}'
     return render_template("hjem.html", info=innhold)
@@ -27,7 +26,6 @@ def neste():
     try:
         with open("static/nestelaiv/info.json", encoding='utf-8') as f:
             innhold = f.read()
-            print(innhold)
     except FileNotFoundError:
         innhold = '{"navn":"Ingen kommende laiv."}'
     return render_template("neste.html", info=innhold)

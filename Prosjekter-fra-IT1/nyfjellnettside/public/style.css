@@ -1,0 +1,22 @@
+html, body {
+    padding: 0;
+    margin: 0;
+}
+main {
+    padding: 50px;
+}
+#liste-fjell {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.fjell {
+    width: 250px;
+    height: 300px;
+    border: 1px solid black;
+    margin: 10px;
+    padding: 10px;
+}
+.fjell img {
+    width: 250px;
+}
