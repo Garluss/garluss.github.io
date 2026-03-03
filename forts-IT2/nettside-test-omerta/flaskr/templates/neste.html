@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block topp %}
+    {{ super() }}
+    <style type="text/css">
+        main {
+            text-align: center;
+        }
+        #mer {
+            width: 60vw;
+        }
+        .innhold {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .innhold div {
+            margin-top: 40px;
+        }
+        #påmelding {
+            margin-top: 50px;
+            text-decoration: none;
+            font-size: 27px;
+            padding: 10px 30px 10px 30px;
+            color: black;
+            background-color: rgb(87, 77, 175);
+            border: 2px solid black;
+            border-radius: 10px;
+        }
+        #påmelding:hover {
+            background-color: rgb(126, 117, 202);
+        }
+    </style>
+{% endblock %}
+
+{% block fane %}
+    <img src="{{ url_for('static', filename='nestelaiv/bilde.jpg') }}" width="2300px">
+    <h1 id="navn">Neste laiv</h1>
+{% endblock %}
+
+{% block innhold %}
+    <div id="praktisk">
+        <h2 id="serie"></h2>
+        <h2 id="dato"></h2>
+        <h2 id="sted"></h2>
+    </div>
+
+    <div id="mer">
+        <h3 id="mer-tittel"></h3>
+        <p id="lbeskrivelse"></p>
+    </div>
+
+    <a id="påmelding"></a>
+
+    <script>
+        const infodict = {{info|tojson}};
+        const parsed = JSON.parse(infodict);
+        if (typeof parsed == "object" && parsed.beskrivelse != undefined) {
+            document.getElementById("navn").innerText = parsed.navn;
+            document.getElementById("serie").innerText = "Serie: " + parsed.serie;
+            document.getElementById("dato").innerText = "Dato: " + parsed.dato;
+            document.getElementById("sted").innerText = "Sted: " + parsed.sted;
+            document.getElementById("mer-tittel").innerText = "Hva er det?";
+            document.getElementById("lbeskrivelse").innerText = parsed.lbeskrivelse;
+            const påmelding = document.getElementById("påmelding");
+            påmelding.innerText = "Påmelding";
+            påmelding.setAttribute("href",parsed.påmelding);
+        } else {
+            document.getElementById("navn").innerText = "Ingen kommende laiv.";
+        }
+
+    </script>
+
+{% endblock %}

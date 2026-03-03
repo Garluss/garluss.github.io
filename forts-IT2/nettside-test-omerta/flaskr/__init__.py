@@ -11,7 +11,7 @@ def home():
             innhold = f.read()
             print(innhold)
     except FileNotFoundError:
-        innhold = "Ingen kommende laiv."
+        innhold = '{"navn":"Ingen kommende laiv."}'
     return render_template("hjem.html", info=innhold)
 
 @app.route("/mer")
@@ -21,6 +21,16 @@ def mer():
 @app.route("/laiver")
 def laiver():
     return render_template("laiver.html")
+
+@app.route("/laiver/neste")
+def neste():
+    try:
+        with open("static/nestelaiv/info.json", encoding='utf-8') as f:
+            innhold = f.read()
+            print(innhold)
+    except FileNotFoundError:
+        innhold = '{"navn":"Ingen kommende laiv."}'
+    return render_template("neste.html", info=innhold)
 
 @app.route("/laiver/both")
 def both():
