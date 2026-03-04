@@ -1,8 +1,10 @@
 from flask import Flask, render_template
+import uuid
+import os
 
 app = Flask(__name__)
 
-app.secret_key = '_test46'
+app.secret_key = uuid.uuid4().hex
 
 @app.route("/")
 def home():
@@ -43,4 +45,4 @@ def kontakt():
     return render_template("kontakt.html")
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
