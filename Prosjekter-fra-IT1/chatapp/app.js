@@ -18,9 +18,26 @@ app.get("/",(req,res) => {
     res.sendFile(__dirname__ + "/public/index.html");
 });
 
-
-app.listen(port, () => console.log(`Running on ${port}`));
 app.get("/hentMeldinger", (req, res) => {
     const row = db.prepare("SELECT * FROM melding").all();
     res.json(row);
 });
+
+app.post("/sendMelding",(req,res) => {
+    try {
+        let {navn, melding, tid} = req.body;
+
+        navn = navn.toString().trim();
+        melding = melding.toString().trim();
+        tid = tid.toString().trim();
+        console.log(navn,melding,tid);
+
+        db.prepare("INSERT INTO melding (navn, melding, dato) VALUES (?, ?, ?)").run(navn,melding,tid);
+        return res.sendStatus(201);
+    } catch (err) {
+        console.log("Feil ved innsending.");
+        return res.status(500).json({ error: 'Melding kunne ikke lagres.' });
+    }
+})
+
+app.listen(port, () => console.log(`Running on ${port}`));

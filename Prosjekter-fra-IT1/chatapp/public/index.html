@@ -3,24 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Rom</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
 </head>
-<script>
-    const ut = document.querySelector("#meldinger");
-
-    async function hent() {
-        const res = await fetch("/hentMeldinger");
-        const data = await res.json();
-
-        for (let melding of data) {
-            let m = document.createElement("p");
-            m.innerText = `${melding.melding}`;
-            ut.appendChild(m);
-        }
-    }
-</script>
 <body>
     <main>
-        <h1>Chættis scheiss</h1>
+        <h1>Chættis lættis</h1>
         <div id="meldinger">
             
         </div>
@@ -28,10 +16,12 @@
             <label for="navn">Navn:</label>
             <input type="text" id="navn" required>
 
+            <div>
             <label for="melding">Melding:</label>
-            <input type="text" id="melding" required>
+            <textarea id="melding" required></textarea>
     
             <button type="submit">Send melding</button>
+            </div>
 </form>
     </main>
 </body>
