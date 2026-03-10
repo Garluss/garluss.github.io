@@ -28,3 +28,7 @@ main {
     flex-direction: column-reverse;
     overflow: hidden;
 }
+.meld-div {
+    margin-left: 10px;
+    overflow-wrap: break-word;
+}

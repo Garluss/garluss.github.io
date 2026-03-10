@@ -15,7 +15,8 @@ async function hent() {
         let p = document.createElement("p");
         let m = document.createElement("p");
         m.innerText = `${data[i].melding}`;
-        p.innerText = `${data[i].navn} [${data[i].dato}]`;
+        let dato = new Date(data[i].dato);
+        p.innerText = `${data[i].navn} [${dato.toLocaleString()}]`;
         div.appendChild(p);
         div.appendChild(m);
         ut.appendChild(div);
