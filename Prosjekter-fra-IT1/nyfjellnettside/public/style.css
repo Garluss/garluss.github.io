@@ -20,3 +20,63 @@ main {
 .fjell img {
     width: 250px;
 }
+nav {
+    display: flex;
+    flex-direction: row;
+}
+nav a {
+    margin-left: 20px;
+    margin-right: 20px;
+    text-decoration: none;
+    color: black;
+    background-color: white;
+    padding: 5px;
+    border: 1px solid black;
+}
+nav a:hover {
+    background-color: lightgrey;
+}
+
+
+
+/* Dette er for side 2 */
+.dropdown-objekt {
+    font-size: 20px;
+}
+#alle-brukere {
+    width: 150px;
+    height: 30px;
+}
+#splitt {
+    display: flex;
+    flex-direction: row;
+    margin: 20px;
+}
+#velg {
+    display: flex;
+    flex-direction: column;
+    font-size: 20px;
+    width: 40%;
+    align-items: center;
+    padding-top: 30px;
+}
+#valgt {
+    width: 50%;
+    height: 42rem;
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(231, 231, 231);
+    padding: 15px;
+}
+#valgt p {
+    font-size: 20px;
+    margin: 5px;
+}
+#info {
+    margin-left: 60px;
+}
+#skjema {
+    display: none;
+    width: 200px;
+    flex-direction: column;
+}

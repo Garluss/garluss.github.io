@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="person-script.js" defer></script>
+</head>
+<body>
+    <main>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/brukere">Brukere</a>
+        </nav>
+        <div id="splitt">
+            <div id="velg">
+                <label for="alle-brukere">Velg person</label>
+                <select id="alle-brukere">
+                    <option value=""></option>
+                </select>
+            </div>
+            <div id="valgt">
+                <div id="info"></div>
+                <div>
+                    <form id="skjema">
+                        <label for="fjell">Fjell</label>
+                        <select id="fjell"></select>
+                        <label for="dato">Dato</label>
+                        <input id="dato" type="date" required>
+                        <label for="varighet">Varighet (sekund)</label>
+                        <input id="varighet" type="number" required>
+                        <label for="beskrivelse">Beskrivelse</label>
+                        <input id="beskrivelse" type="text">
+                        <input type="submit">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
