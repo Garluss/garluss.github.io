@@ -7,6 +7,10 @@ async function hentData() {
     return data;
 }
 
+function utvid(event) {
+    window.location.pathname = "/arrangement/" + event.target.id;
+}
+
 async function kjør() {
     data = await hentData();
     console.log(data);
@@ -34,15 +38,20 @@ async function kjør() {
         p.innerText = `${arrangement.Dato} / ${arrangement.Tid}`;
         udiv.appendChild(p);
         p = document.createElement("p");
-        p.innerText = arrangement.Pris;
+        p.innerText = `Bilettpris: ${arrangement.Pris},-`;
         udiv.appendChild(p);
         p = document.createElement("p");
         p.innerText = `${arrangement.Stedsnavn}, ${arrangement.Postnummer}`;
         udiv.appendChild(p);
         p = document.createElement("p");
-        p.innerText = arrangement.Aldersgrense;
+        p.innerText = `Aldersgrense: ${arrangement.Aldersgrense} +`;
         udiv.appendChild(p);
         div.appendChild(udiv);
+        p = document.createElement("button");
+        p.innerText = "Utforsk";
+        p.setAttribute("id",arrangement.ArrangementID);
+        p.addEventListener("click",utvid);
+        div.appendChild(p);
         ut.appendChild(div);
     });
 }

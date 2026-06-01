@@ -5,4 +5,5 @@
     - Dette kan være admin innlogging
     - Eller åpent
 - Mulighet for å klikke på arrangement og få egen side på dem
+- Gjør kode pen på arrangement script
 - Legg evt. til adresse sted shit
