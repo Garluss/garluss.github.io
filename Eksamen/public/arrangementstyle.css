@@ -1,0 +1,57 @@
+body, html {
+    padding: 0;
+    margin: 0;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    background-color: rgb(224, 195, 28);
+    border: 1px solid black;
+}
+nav a {
+    text-decoration: none;
+    font-weight: bold;
+    color: black;
+    font-size: 25px;
+    padding: 14px;
+    margin-right: 80px;
+    margin-left: 30px;
+}
+nav a:hover {
+    background-color: rgb(202, 176, 30);
+}
+
+#arrangliste {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 40px;
+    background-color: rgb(240, 240, 240);
+    height: auto;
+}
+
+.arrang {
+    border: 1px solid black;
+    padding: 10px;
+    background-color: white;
+}
+
+.a-o {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.a-u {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+}
