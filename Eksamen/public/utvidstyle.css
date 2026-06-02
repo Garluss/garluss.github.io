@@ -1,0 +1,56 @@
+body, html {
+    padding: 0;
+    margin: 0;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background-color: rgb(240, 240, 240);
+    font-size: 20px;
+}
+
+nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    background-color: rgb(224, 195, 28);
+    border: 1px solid black;
+}
+nav a {
+    text-decoration: none;
+    font-weight: bold;
+    color: black;
+    font-size: 25px;
+    padding: 14px;
+    margin-right: 80px;
+    margin-left: 30px;
+}
+nav a:hover {
+    background-color: rgb(202, 176, 30);
+}
+
+#a-pris {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: 600px;
+}
+
+#a-sted {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: 200px;
+}
+
+#annet {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    font-size: 18px;
+    margin-top: 50px;
+}

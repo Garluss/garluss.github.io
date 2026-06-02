@@ -4,10 +4,48 @@
     <meta charset="UTF-8">
     <title>Document</title>
     <script src="/utvidscript.js" defer></script>
+    <link rel="stylesheet" href="/utvidstyle.css">
 </head>
 <body>
+    <nav>
+        <a href="/">Arrangement</a>
+        <a href="/arrangoerer">Arrangører</a>
+    </nav>
     <main>
-
+        <h1 id="navn"></h1>
+        <h3 id="kategori"></h3>
+        <p id="beskrivelse"></p>
+        <div id="a-pris">
+            <p id="pris">Pris: /,-</p>
+            <p id="antalltilgjengelig">Tilgjengelige billetter: /</p>
+            <p id="aldersgrense">Aldersgrense: / +</p>
+        </div>
+        <div id="a-sted">
+            <p id="stedsnavn">Sted: /</p>
+            <p id="postnummer"></p>
+        </div>
+        <div>
+            <p id="dato">Dato: /</p>
+            <p id="tid">Klokkeslett: /</p>
+        </div>
+        <div id="arrangør">
+            <h2 id="arg-navn"></h2>
+            <h3 id="arg-type"></h3>
+            <p id="arg-beskrivelse"></p>
+            <div>
+                <div>
+                    <h3 id="arg-kontaktnavn"></h3>
+                </div>
+                <p id="arg-kontaktpersonepost"></p>
+                <p id="arg-kontaktpersontlf"></p>
+            </div>
+        </div>
     </main>
+    <div id="annet">
+        <div>
+            <h2 id="tittel-roller"></h2>
+            <div id="rolleliste"></div>
+        </div>
+    </div>
 </body>
 </html>
