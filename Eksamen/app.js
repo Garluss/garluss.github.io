@@ -27,6 +27,10 @@ app.get("/arrangement/:ID", (req,res) => {
     res.sendFile(__dirname + "/public/utvid.html");
 });
 
+app.get("/rediger", (req,res) => {
+    res.sendFile(__dirname + "/public/rediger.html");
+});
+
 //API-er
 app.get("/api/arrangement_data", (req,res) => {
     const rows = db.prepare(`

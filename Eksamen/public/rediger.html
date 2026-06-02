@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="redigerstyle.css">
+    <script src="redigerscript.js" defer></script>
+</head>
+<body>
+    <nav>
+        <a href="/">Arrangement</a>
+        <a href="/arrangoerer">Arrangører</a>
+    </nav>
+    <main>
+        <h1>Arrangement</h1>
+        <div id="splitt">
+            <div id="arrangliste"></div>
+            <div>
+                <form id="velg">
+                    <label for="velg-input">Lag ny </label>
+                    <select id="velg-input">
+                        <option value="person">Person</option>
+                        <option value="arrangør">Arrangør</option>
+                        <option value="arrangement">Arrangement</option>
+                        <option value="rolle">Rolle</option>
+                    </select>
+                </form>
+                <form id="skjema-person" class="skjema">
+                    <label for="fornavn">Fornavn: </label>
+                    <input id="fornavn" required>
+                    <label for="etternavn">Etternavn: </label>
+                    <input id="etternavn" required>
+                    <label for="epost">Epost: </label>
+                    <input id="epost">
+                    <label for="tlf">Telefonnummer: </label>
+                    <input id="tlf">
+                    <input type="submit">
+                </form>
+                <form id="skjema-arrangør" class="skjema">
+                    <label for="aø-navn">Navn: </label>
+                    <input id="aø-navn" required>
+                    <label for="type">Type: </label>
+                    <input id="type" required>
+                    <label for="aø-beskrivelse">Beskrivelse: </label>
+                    <input id="aø-beskrivelse">
+                    <label for="kontaktperson">Kontaktperson: </label>
+                    <input id="kontaktperson">
+                    <input type="submit">
+                </form>
+                <form id="skjema-arrangement" class="skjema">
+                    <label for="at-navn">Navn: </label>
+                    <input id="at-navn" required>
+                    <label for="arrangør">Arrangør: </label>
+                    <input id="arrangør" required>
+                    <label for="kategori">Kategori: </label>
+                    <input id="kategori" required>
+                    <label for="at-beskrivelse">Beskrivelse: </label>
+                    <input id="at-beskrivelse">
+                    <label for="dato">Dato: </label>
+                    <input id="dato" required>
+                    <label for="tid">Tid: </label>
+                    <input id="tid" required>
+                    <label for="stedsnavn">Stedsnavn: </label>
+                    <input id="stedsnavn" required>
+                    <label for="postnummer">Postnummer: </label>
+                    <input id="postnummer">
+                    <label for="pris">Billettpris: </label>
+                    <input id="pris" required>
+                    <label for="antall">Tilgjengelige billetter: </label>
+                    <input id="antall" required>
+                    <label for="alder">Aldersgrense: </label>
+                    <input id="alder">
+                    <!--<label for=""> </label>    Opplastning av bilde
+                    <input id="" required> -->
+                    <input type="submit">
+                </form>
+                <form id="skjema-rolle" class="skjema">
+                    <label for="arrangement">Arrangement: </label>
+                    <input id="arrangement" required>
+                    <label for="person">Person: </label>
+                    <input id="person" reqired>
+                    <label for="rolle">Rolle: </label>
+                    <input id="rolle" required>
+                    <input type="submit">
+                </form>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
