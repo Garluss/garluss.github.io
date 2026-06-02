@@ -10,7 +10,7 @@ main {
 }
 
 #splitt {
-    display: grid;
+    display: none;
     grid-template-columns: 2fr 1fr;
 }
 

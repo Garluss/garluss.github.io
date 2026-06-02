@@ -43,12 +43,15 @@ async function kjør() {
             let p = document.createElement("h3");
             p.innerText = person.Fornavn + " " + person.Etternavn;
             div.appendChild(p);
+
             p = document.createElement("p");
             p.innerText = person.Rolle;
             div.appendChild(p);
+
             p = document.createElement("p");
             p.innerText = "Epost: " + person.Epost;
             div.appendChild(p);
+
             p = document.createElement("p");
             p.innerText = person.Telefonnummer;
             div.appendChild(p);

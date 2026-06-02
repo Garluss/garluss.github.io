@@ -13,6 +13,7 @@
     </nav>
     <main>
         <h1>Arrangement</h1>
+        <div id="popup"></div>
         <div id="splitt">
             <div id="arrangliste"></div>
             <div>
@@ -27,20 +28,20 @@
                     </select>
                 </form>
                 <form id="skjema-person" class="skjema">
-                    <label for="fornavn">Fornavn: </label>
-                    <input id="fornavn" required>
-                    <label for="etternavn">Etternavn: </label>
-                    <input id="etternavn" required>
-                    <label for="epost">Epost: </label>
-                    <input id="epost">
-                    <label for="tlf">Telefonnummer: </label>
-                    <input id="tlf">
+                    <label for="fornavn">Fornavn:* </label>
+                    <input id="fornavn" placeholder="Ole" required>
+                    <label for="etternavn">Etternavn:* </label>
+                    <input id="etternavn" placeholder="Nordmann" required>
+                    <label for="epost">Epost: (valgfritt)</label>
+                    <input id="epost" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" placeholder="email@domain.com">
+                    <label for="tlf">Telefonnummer: (valgfritt)</label>
+                    <input id="tlf" pattern="[0-9]{8}" placeholder="98765432">
                     <input type="submit">
                 </form>
                 <form id="skjema-arrangør" class="skjema">
-                    <label for="aø-navn">Navn: </label>
-                    <input id="aø-navn" required>
-                    <label for="type">Type: </label>
+                    <label for="aø-navn">Navn:* </label>
+                    <input id="aø-navn" placeholder="Båter AS" required>
+                    <label for="type">Type:* </label>
                     <select id="type" required>
                         <option value="Bedrift">Bedrift</option>
                         <option value="Selskap">Selskap</option>
@@ -49,18 +50,20 @@
                         <option value="Privatperson">Privatperson</option>
                         <option value="Annet">Annet</option>
                     </select>
-                    <label for="aø-beskrivelse">Beskrivelse: </label>
-                    <input id="aø-beskrivelse">
+                    <label for="aø-beskrivelse">Beskrivelse:</label>
+                    <textarea id="aø-beskrivelse" rows="3" wrap="soft"></textarea>
                     <label for="kontaktperson">Kontaktperson: </label>
-                    <select id="kontaktperson"></select>
+                    <select id="kontaktperson">
+                        <option value=""></option>
+                    </select>
                     <input type="submit">
                 </form>
                 <form id="skjema-arrangement" class="skjema">
-                    <label for="at-navn">Navn: </label>
+                    <label for="at-navn">Navn:* </label>
                     <input id="at-navn" required>
-                    <label for="arrangør">Arrangør: </label>
+                    <label for="arrangør">Arrangør:* </label>
                     <select id="arrangør" required></select>
-                    <label for="kategori">Kategori: </label>
+                    <label for="kategori">Kategori:* </label>
                     <select id="kategori" required>
                         <option value="Festival">Festival</option>
                         <option value="Filmvisning">Filmvisning</option>
@@ -70,33 +73,35 @@
                         <option value="Religiøs aktivitet">Religiøs aktivitet</option>
                         <option value="Annet">Annet</option>
                     </select>
-                    <label for="at-beskrivelse">Beskrivelse: </label>
-                    <input id="at-beskrivelse">
-                    <label for="dato">Dato: </label>
+                    <label for="at-beskrivelse">Beskrivelse:</label>
+                    <textarea id="at-beskrivelse" rows="3" wrap="soft"></textarea>
+                    <label for="dato">Dato:* </label>
                     <input type="date" id="dato" required>
-                    <label for="tid">Tid: </label>
+                    <label for="tid">Tid:* </label>
                     <input type="time" id="tid" required>
-                    <label for="stedsnavn">Stedsnavn: </label>
-                    <input id="stedsnavn" required>
-                    <label for="postnummer">Postnummer: </label>
-                    <input id="postnummer">
-                    <label for="pris">Billettpris: </label>
+                    <label for="stedsnavn">Stedsnavn:* </label>
+                    <input id="stedsnavn" placeholder="Danmarksplass" required>
+                    <label for="postnummer">Postnummer:</label>
+                    <input id="postnummer" placeholder="5058">
+                    <label for="pris">Billettpris:</label>
                     <input type="number" id="pris">
-                    <label for="antall">Tilgjengelige billetter: </label>
+                    <label for="antall">Tilgjengelige billetter:</label>
                     <input type="number" id="antall">
-                    <label for="alder">Aldersgrense: </label>
+                    <label for="alder">Aldersgrense:</label>
                     <input type="number" id="alder">
                     <label for="bilde">Vel bildefil</label>
-                    <input type="file" name="bilde" id="bilde" accept="image/*" required>
+                    <input type="file" name="bilde" id="bilde" accept="image/*">
+                    <label for="alttekst">Legg til alttekst for bildet (valgfritt)</label>
+                    <input type="text" id="alttekst" placeholder="Et bilde av en fin hund.">
                     <input type="submit">
                 </form>
                 <form id="skjema-rolle" class="skjema">
-                    <label for="arrangement">Arrangement: </label>
+                    <label for="arrangement">Arrangement:* </label>
                     <select id="arrangement" required></select>
-                    <label for="person">Person: </label>
+                    <label for="person">Person:* </label>
                     <select id="person" reqired></select>
-                    <label for="rolle">Rolle: </label>
-                    <input id="rolle" required>
+                    <label for="rolle">Rolle:* </label>
+                    <input id="rolle" placeholder="Medvirkende" required>
                     <input type="submit">
                 </form>
             </div>

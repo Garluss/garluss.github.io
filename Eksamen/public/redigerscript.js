@@ -17,6 +17,8 @@ async function slett(event) {
 }
 */
 
+// I denne funksjon henter vi informasjon om alle de mulige valgene dropdownene kan ha.
+// De gjenspeiler informasjonen fra databasen
 async function oppdaterDropdowns() {
     let res = await fetch("/api/personer");
     const personer = await res.json();
@@ -50,6 +52,7 @@ async function oppdaterDropdowns() {
     });
 }
 
+// Viser det skjemaet som velges med select-elementet
 const dd = document.querySelector("#velg-input");
 dd.addEventListener("change", (event) => {
     const verdi = dd.value
@@ -59,26 +62,31 @@ dd.addEventListener("change", (event) => {
     }
 });
 
+// Event-listener som sender info til backend om lagring av en person
 document.querySelector("#skjema-person").addEventListener("submit", async (event) => {
     event.preventDefault();
     const fornavn = document.getElementById("fornavn").value;
     const etternavn = document.getElementById("etternavn").value;
     const epost = document.getElementById("epost").value;
     const tlf = document.getElementById("tlf").value;
+    document.querySelector("#skjema-arrangør").reset();
     const res = await fetch("/api/lagreperson", {method:"POST",headers:{"Content-Type":"application/json"}, body: JSON.stringify({fornavn,etternavn,epost,tlf})});
 });
 
+// Event-listener som sender informasjon om lagring av en arrangør
 document.querySelector("#skjema-arrangør").addEventListener("submit", async (event) => {
     event.preventDefault();
     const navn = document.getElementById("aø-navn").value;
     const type = document.getElementById("type").value;
     const beskrivelse = document.getElementById("aø-beskrivelse").value;
     const kontaktperson = document.getElementById("kontaktperson").value;
-    const res = await fetch("/api/lagrearrangør", {method:"POST",headers:{"Content-Type":"application/json"}, body: JSON.stringify({navn,type,beskrivelse,kontaktperson})});
+    document.querySelector("#skjema-arrangør").reset();
+    const res = await fetch("/api/lagrearrangoer", {method:"POST",headers:{"Content-Type":"application/json"}, body: JSON.stringify({navn,type,beskrivelse,kontaktperson})});
 });
 
+// Event-listener som gjør sender info til backend om lagring av arrangement
 document.querySelector("#skjema-arrangement").addEventListener("submit", async (event) => {
-    //event.preventDefault(); Vurdert at dette passer best uten preventDefault()
+    event.preventDefault();
     const navn = document.getElementById("at-navn").value;
     let arrangør = document.getElementById("arrangør").value;
     console.log(arrangør)
@@ -92,7 +100,9 @@ document.querySelector("#skjema-arrangement").addEventListener("submit", async (
     const antall = document.getElementById("antall").value;
     let alder = document.getElementById("alder").value;
     const bilde = document.getElementById("bilde").files[0]; // hent filen
+    const alttekst = document.getElementById("alttekst").value;
 
+    // Vi bruker formdata slik at vi kan laste opp bilde
     const formData = new FormData();
     formData.append("navn", navn);
     formData.append("arrangoerID", arrangør);
@@ -107,7 +117,9 @@ document.querySelector("#skjema-arrangement").addEventListener("submit", async (
     formData.append("alder", alder);
     console.log(formData);
     formData.append("bilde", bilde); // legg til bildet
+    formData.append("alttekst",alttekst);
 
+    document.querySelector("#skjema-arrangør").reset();
     const res = await fetch("/api/lagrearrangement", {
         method: "POST",
         body: formData, // ingen headers, ingen JSON.stringify
@@ -128,26 +140,31 @@ async function kjør() {
         let p = document.createElement("h2");
         p.innerText = arrangement.Navn;
         udiv.appendChild(p);
+
         p = document.createElement("p");
         p.setAttribute("class","a-kat");
         p.innerText = arrangement.Kategori;
         udiv.appendChild(p);
         div.appendChild(udiv);
+
         p = document.createElement("p");
         p.innerText = arrangement.Beskrivelse;
         p.setAttribute("class","a-bes");
         div.appendChild(p);
+
         udiv = document.createElement("div");
         udiv.setAttribute("class","a-u");
         p = document.createElement("p");
         p.innerText = `${arrangement.Dato} / ${arrangement.Tid}`;
         udiv.appendChild(p);
+
         p = document.createElement("p");
         p.innerText = `Bilettpris: ${arrangement.Pris},-`;
         udiv.appendChild(p);
         p = document.createElement("p");
         p.innerText = `${arrangement.Stedsnavn}, ${arrangement.Postnummer}`;
         udiv.appendChild(p);
+
         p = document.createElement("p");
         p.innerText = `Aldersgrense: ${arrangement.Aldersgrense} +`;
         udiv.appendChild(p);
@@ -164,6 +181,22 @@ async function kjør() {
     document.querySelector("#dato").setAttribute("min",idag);
 
     oppdaterDropdowns();
+
+    //Lager popup
+    const popup = document.querySelector("#popup");
+    let info = document.createElement("h3");
+    info.innerText = "Sensitiv informasjon";
+    popup.appendChild(info);
+    info = document.createElement("p");
+    info.innerText = `
+    Denne siden kan spørre om sensitiv informasjon da man skal lagre nye data på databasen. \n
+    Dette inkluderer telefonnummer og epost. Det er valgfritt å oppgi denne informasjonen.
+    `;
+    popup.appendChild(info);
+    let knapp = document.createElement("button");
+    knapp.innerText = "Jeg forstår.";
+    knapp.addEventListener("click", (event) => { popup.innerHTML = ""; document.querySelector("#splitt").style.display = "grid"; });
+    popup.appendChild(knapp);
 }
 
 kjør();

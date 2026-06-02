@@ -30,22 +30,39 @@ nav a:hover {
 }
 
 #arrangliste {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
     padding: 40px;
     background-color: rgb(240, 240, 240);
     height: auto;
+}
+
+@media (max-width: 1100px) { 
+    #arrangliste {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+@media (max-width: 790px) { 
+    #arrangliste {
+        grid-template-columns: 1fr;
+    }
+}
+@media (max-width: 480px) { 
+    nav a {
+        margin: 0;
+    }
 }
 
 .arrang {
     border: 1px solid black;
     padding: 10px;
     background-color: white;
+    margin: 30px;
 }
 .arrang img {
-    max-width: 300px;
-    max-height: 300px;
+    min-width: 250px;
+    max-width: 350px;
+    max-height: 350px;
 }
 
 .a-o {

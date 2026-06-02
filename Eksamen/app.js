@@ -5,6 +5,7 @@ const app = express();
 const PORT = 3000;
 const database = "arranet.db";
 
+// Kobler til database
 const Database = require("better-sqlite3");
 const db = new Database(database);
 
@@ -33,22 +34,28 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
+// Grunnside
 app.get("/", (req,res) => {
     res.sendFile(__dirname + "/public/arrangement.html");
 });
+
+// Side for å vise en liste av arrangører
 app.get("/arrangoerer", (req,res) => {
     res.sendFile(__dirname + "/public/arrangoerer.html");
 });
 
+// Side for å få opp detaljer om et visst arrangement med id ID
 app.get("/arrangement/:ID", (req,res) => {
     res.sendFile(__dirname + "/public/utvid.html");
 });
 
+// Side for å redigere arrangementene
 app.get("/rediger", (req,res) => {
     res.sendFile(__dirname + "/public/rediger.html");
 });
 
 //API-er
+// API for å hente inn data om arrangementer
 app.get("/api/arrangement_data", (req,res) => {
     const rows = db.prepare(`
         SELECT
@@ -60,6 +67,7 @@ app.get("/api/arrangement_data", (req,res) => {
             Arrangement.Tid, 
             Arrangement.Aldersgrense, 
             Arrangement.Bilde,
+            Arrangement.Alttekst,
             Sted.Navn AS Stedsnavn,
             Sted.Postnummer,
             BillettInfo.Pris 
@@ -72,7 +80,8 @@ app.get("/api/arrangement_data", (req,res) => {
     res.json(rows);
 });
 
-app.get("/api/arrangement/:ID", (req,res) => {
+// API for å hente all data om visst arrangement. Dette er satt opp i tre individuelle SQL-kommandoer for ryddighet
+app.get("/api/arrangement/:ID", (req,res) => { // Henter info om arrangementet
     const ID = req.params.ID;
     const rows1 = db.prepare(`
         SELECT 
@@ -93,7 +102,7 @@ app.get("/api/arrangement/:ID", (req,res) => {
         LEFT JOIN BillettInfo 
             ON Arrangement.BillettID = BillettInfo.BillettID
         WHERE Arrangement.ArrangementID = ?;
-    `).all(ID);
+    `).all(ID); // Henter info om arrangøren og kontaktpersonen til arrangøren
     const rows2 = db.prepare(`
         SELECT
             Arrangør.ArrangørID,
@@ -110,7 +119,7 @@ app.get("/api/arrangement/:ID", (req,res) => {
         JOIN Person
             ON Arrangør.Kontaktperson = Person.PersonID
         WHERE Arrangement.ArrangementID = ?;
-    `).all(ID);
+    `).all(ID); // Henter info om roller
     const rows3 = db.prepare(`
         SELECT
             Person.Fornavn,
@@ -128,15 +137,19 @@ app.get("/api/arrangement/:ID", (req,res) => {
     res.json([rows1,rows2,rows3]);
 });
 
+// Liste av personene
 app.get("/api/personer", (req,res) => {
     const rows = db.prepare("SELECT * FROM Person").all();
     res.json(rows);
 });
+
+// Liste av arrangører
 app.get("/api/arrangoerer", (req,res) => {
     const rows = db.prepare("SELECT * FROM Arrangør").all();
     res.json(rows);
 });
 
+// POST-rute for å lagre informasjon om en person i d.b.
 app.post("/api/lagreperson", express.json(), async function (req,res) {
     const {fornavn,etternavn,epost,tlf} = req.body;
     db.prepare(`
@@ -144,17 +157,24 @@ app.post("/api/lagreperson", express.json(), async function (req,res) {
             Person (Fornavn, Etternavn, Epost, Telefonnummer) 
         VALUES (?,?,?,?)
     `).run(fornavn,etternavn,epost,tlf);
+    res.sendStatus(200);
 });
-app.post("/api/lagrearrangør", express.json(), async function (req,res) {
-    const {navn,type,beskrivelse,kontaktperson} = req.body;
+
+// POST-rute for å lagre informasjon om arrangøren.
+app.post("/api/lagrearrangoer", express.json(), async function (req,res) {
+    let {navn,type,beskrivelse,kontaktperson} = req.body;
+    if (kontaktperson == "") { kontaktperson = null};
     db.prepare(`
         INSERT INTO 
-            Arrangør (Navn, Beskrivelse, Type, Kontaktperson) 
+            Arrangør (Navn, Beskrivelse, Type, Kontaktperson)
         VALUES (?,?,?,?)
-    `).run(fornavn,etternavn,epost,tlf);
+    `).run(navn,beskrivelse,type,kontaktperson);
+    res.sendStatus(200);
 });
+
+// POST-rute for å lagre informasjon om arrangementet.
 app.post("/api/lagrearrangement", upload.single('bilde'), async function (req,res) {
-    const {navn,arrangoerID,kategori,beskrivelse,dato,tid,stedsnavn,postnummer,pris,antall,alder} = req.body;
+    const {navn,arrangoerID,kategori,beskrivelse,dato,tid,stedsnavn,postnummer,pris,antall,alder,alttekst} = req.body;
     const stedInsert = db.prepare(`
         INSERT INTO 
             Sted (Navn, Postnummer) 
@@ -169,9 +189,10 @@ app.post("/api/lagrearrangement", upload.single('bilde'), async function (req,re
     const bildenavn = filename;
     db.prepare(`
         INSERT INTO
-            Arrangement (ArrangørID,Navn,Beskrivelse,Kategori,Dato,Tid,StedID,BillettID,Aldersgrense,Bilde)
-        VALUES (?,?,?,?,?,?,?,?,?,?)
-    `).run(Number(arrangoerID),navn,beskrivelse,kategori,dato,tid,stedInsert.lastInsertRowid,billettInsert.lastInsertRowid,alder,bildenavn);
+            Arrangement (ArrangørID,Navn,Beskrivelse,Kategori,Dato,Tid,StedID,BillettID,Aldersgrense,Bilde,Alttekst)
+        VALUES (?,?,?,?,?,?,?,?,?,?,?)
+    `).run(Number(arrangoerID),navn,beskrivelse,kategori,dato,tid,stedInsert.lastInsertRowid,billettInsert.lastInsertRowid,alder,bildenavn,alttekst);
+    res.sendStatus(200);
 });
 
 app.listen(PORT, () => {

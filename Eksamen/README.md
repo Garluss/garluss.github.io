@@ -1,9 +1,8 @@
 ## To-do
-- Sensitiv info warning ting
-- Gjør kode pen på arrangement script
 - Legge til informasjon
     - Passe på at det ikke lagres dobbelt
     - Sjekke om Sted, Billettinfo, og slik allerede finnes. Hvis ja, bruk eksisterende.
-- Innfør alttekst input for bilder
+- Fjerne tekst på arrangement-oppslag dersom den ikke har verdi.
+- Legg til mere testdata
 - Legg evt. til adresse sted shit
 - Lage arrangør-side
