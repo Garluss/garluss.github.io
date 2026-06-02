@@ -17,7 +17,7 @@ main {
 .skjema {
     display: none;
     flex-direction: column;
-    padding: 80px;
+    padding: 140px;
 }
 
 nav {

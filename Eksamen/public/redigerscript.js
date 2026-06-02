@@ -17,12 +17,82 @@ async function slett(event) {
 }
 */
 
+async function oppdaterDropdowns() {
+    let res = await fetch("/api/personer");
+    const personer = await res.json();
+    personer.forEach(person => {
+        let option = document.createElement("option");
+        option.setAttribute("value",person.PersonID);
+        option.innerText = person.Fornavn + " " + person.Etternavn;
+        document.querySelector("#kontaktperson").appendChild(option);
+    });
+    res = await fetch("/api/arrangoerer");
+    const arrangører = await res.json();
+    arrangører.forEach(arrangør => {
+        let option = document.createElement("option");
+        option.setAttribute("value",arrangør.ArrangørID);
+        option.innerText = arrangør.Navn;
+        document.querySelector("#arrangør").appendChild(option);
+    });
+    res = await fetch("/api/arrangement_data");
+    const arrangement = await res.json();
+    arrangement.forEach(arrangement => {
+        let option = document.createElement("option");
+        option.setAttribute("value",arrangement.ArrangementID);
+        option.innerText = arrangement.Navn;
+        document.querySelector("#arrangement").appendChild(option);
+    });
+    personer.forEach(person => {
+        let option = document.createElement("option");
+        option.setAttribute("value",person.PersonID);
+        option.innerText = person.Fornavn + " " + person.Etternavn;
+        document.querySelector("#person").appendChild(option);
+    });
+}
+
 const dd = document.querySelector("#velg-input");
 dd.addEventListener("change", (event) => {
     const verdi = dd.value
     document.querySelectorAll(".skjema").forEach(element => { element.style.display = "none" });
     document.querySelector(`#skjema-${verdi.toLowerCase()}`).style.display = "flex";
 });
+
+document.querySelector("#skjema-person").addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const fornavn = document.getElementById("fornavn").value;
+    const etternavn = document.getElementById("etternavn").value;
+    const epost = document.getElementById("epost").value;
+    const tlf = document.getElementById("tlf").value;
+    const res = await fetch("/api/lagreperson", {method:"POST",headers:{"Content-Type":"application/json"}, body: JSON.stringify({fornavn,etternavn,epost,tlf})});
+});
+
+document.querySelector("#skjema-arrangør").addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const navn = document.getElementById("aø-navn").value;
+    const type = document.getElementById("type").value;
+    const beskrivelse = document.getElementById("aø-beskrivelse").value;
+    const kontaktperson = document.getElementById("kontaktperson").value;
+    const res = await fetch("/api/lagrearrangør", {method:"POST",headers:{"Content-Type":"application/json"}, body: JSON.stringify({navn,type,beskrivelse,kontaktperson})});
+});
+
+document.querySelector("#skjema-arrangement").addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const navn = document.getElementById("at-navn").value;
+    const arrangør = document.getElementById("arrangør").value;
+    const kategori = document.getElementById("kategori").value;
+    const beskrivelse = document.getElementById("at-beskrivelse").value;
+    const dato = document.getElementById("dato").value;
+    const tid = document.getElementById("tid").value;
+    const stedsnavn = document.getElementById("stedsnavn").value;
+    const postnummer = document.getElementById("postnummer").value;
+    const pris = document.getElementById("pris").value;
+    const antall = document.getElementById("antall").value;
+    const alder = document.getElementById("alder").value;
+    const res = await fetch("/api/lagrearrangør", {method:"POST",headers:{"Content-Type":"application/json"}, body: JSON.stringify({navn,arrangør,kategori,beskrivelse,dato,tid,stedsnavn,postnummer,pris,antall,alder})});
+});
+
+
+
 
 async function kjør() {
     data = await hentData();
@@ -66,6 +136,11 @@ async function kjør() {
         div.appendChild(p);*/
         ut.appendChild(div);
     });
+    //Setter minimum tid
+    const idag = new Date().toISOString().split("T")[0];
+    document.querySelector("#dato").setAttribute("min",idag);
+
+    oppdaterDropdowns();
 }
 
 kjør();

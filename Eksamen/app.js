@@ -111,6 +111,55 @@ app.get("/api/arrangement/:ID", (req,res) => {
     res.json([rows1,rows2,rows3]);
 });
 
+app.get("/api/personer", (req,res) => {
+    const rows = db.prepare("SELECT * FROM Person").all();
+    res.json(rows);
+});
+app.get("/api/arrangoerer", (req,res) => {
+    const rows = db.prepare("SELECT * FROM Arrangør").all();
+    res.json(rows);
+});
+
+app.post("/api/lagreperson", express.json(), async function (req,res) {
+    const {fornavn,etternavn,epost,tlf} = req.body;
+    db.prepare(`
+        INSERT INTO 
+            Person (Fornavn, Etternavn, Epost, Telefonnummer) 
+        VALUES (?,?,?,?)
+    `).run(fornavn,etternavn,epost,tlf);
+});
+app.post("/api/lagrearrangør", express.json(), async function (req,res) {
+    const {navn,type,beskrivelse,kontaktperson} = req.body;
+    db.prepare(`
+        INSERT INTO 
+            Arrangør (Navn, Beskrivelse, Type, Kontaktperson) 
+        VALUES (?,?,?,?)
+    `).run(fornavn,etternavn,epost,tlf);
+});
+app.post("/api/lagrearrangement", express.json(), async function (req,res) {
+    const {navn,arrangør,kategori,beskrivelse,dato,tid,stedsnavn,postnummer,pris,antall,alder} = req.body;
+    db.prepare(`
+        INSERT INTO 
+            Sted (Navn, Postnummer) 
+        VALUES (?,?)
+    `).run(stedsnavn, postnummer);
+    db.prepare(`
+        INSERT INTO 
+            BillettInfo (Pris, AntallTilgjengelig) 
+        VALUES (?,?)
+    `).run(pris,antall);
+    const stedliste = db.prepare("SELECT StedID FROM Sted WHERE Navn = ? AND Postnummer = ?").all(stedsnavn,postnummer);
+    const billettliste = db.prepare("SELECT BillettID FROM BillettInfo WHERE Pris = ? AND AntallTilgjengelig = ?").all(pris,antall);
+    db.prepare(`
+        INSERT INTO
+            Arrangement (ArrangørID,Navn,Beskrivelse,Kategori,Dato,Tid,StedID,BillettID,Aldersgrense,Bilde)
+        VALUES (?,?,?,?,?,?,?,?,?,?)
+    `).run(arrangør,navn,beskrivelse,kategori,dato,tid,stedliste[0].StedID,billettliste[0].BillettID,alder,_);
+});
+
+
+
+
 app.listen(PORT, () => {
     console.log(`Server åpen på port ${PORT}`);
 });

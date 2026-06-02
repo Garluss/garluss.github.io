@@ -40,45 +40,60 @@
                     <label for="aø-navn">Navn: </label>
                     <input id="aø-navn" required>
                     <label for="type">Type: </label>
-                    <input id="type" required>
+                    <select id="type" required>
+                        <option value="Bedrift">Bedrift</option>
+                        <option value="Selskap">Selskap</option>
+                        <option value="Forening">Forening</option>
+                        <option value="Annen organisasjon">Annen organisasjon</option>
+                        <option value="Privatperson">Privatperson</option>
+                        <option value="Annet">Annet</option>
+                    </select>
                     <label for="aø-beskrivelse">Beskrivelse: </label>
                     <input id="aø-beskrivelse">
                     <label for="kontaktperson">Kontaktperson: </label>
-                    <input id="kontaktperson">
+                    <select id="kontaktperson"></select>
                     <input type="submit">
                 </form>
                 <form id="skjema-arrangement" class="skjema">
                     <label for="at-navn">Navn: </label>
                     <input id="at-navn" required>
                     <label for="arrangør">Arrangør: </label>
-                    <input id="arrangør" required>
+                    <select id="arrangør" required></select>
                     <label for="kategori">Kategori: </label>
-                    <input id="kategori" required>
+                    <select id="kategori" required>
+                        <option value="Festival">Festival</option>
+                        <option value="Filmvisning">Filmvisning</option>
+                        <option value="Konsert">Konsert</option>
+                        <option value="Produktlansering">Produktlansering</option>
+                        <option value="Kulturell arrangement">Kulturell arrangement</option>
+                        <option value="Religiøs aktivitet">Religiøs aktivitet</option>
+                        <option value="Annet">Annet</option>
+                    </select>
                     <label for="at-beskrivelse">Beskrivelse: </label>
                     <input id="at-beskrivelse">
                     <label for="dato">Dato: </label>
-                    <input id="dato" required>
+                    <input type="date" id="dato" required>
                     <label for="tid">Tid: </label>
-                    <input id="tid" required>
+                    <input type="time" id="tid" required>
                     <label for="stedsnavn">Stedsnavn: </label>
                     <input id="stedsnavn" required>
                     <label for="postnummer">Postnummer: </label>
                     <input id="postnummer">
                     <label for="pris">Billettpris: </label>
-                    <input id="pris" required>
+                    <input type="number" id="pris" required>
                     <label for="antall">Tilgjengelige billetter: </label>
-                    <input id="antall" required>
+                    <input type="number" id="antall" required>
                     <label for="alder">Aldersgrense: </label>
-                    <input id="alder">
+                    <input type="number" id="alder">
                     <!--<label for=""> </label>    Opplastning av bilde
                     <input id="" required> -->
                     <input type="submit">
                 </form>
                 <form id="skjema-rolle" class="skjema">
                     <label for="arrangement">Arrangement: </label>
-                    <input id="arrangement" required>
+                    <select id="arrangement" required></select>
                     <label for="person">Person: </label>
-                    <input id="person" reqired>
+                    <select id="person" reqired></select>
                     <label for="rolle">Rolle: </label>
                     <input id="rolle" required>
                     <input type="submit">

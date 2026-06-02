@@ -6,5 +6,7 @@
     - Eller åpent
 - Mulighet for å klikke på arrangement og få egen side på dem
 - Gjør kode pen på arrangement script
-- Kategori-selector
+- Legge til informasjon
+    - Passe på at det ikke lagres dobbelt
+    - Sjekke om Sted, Billettinfo, og slik allerede finnes. Hvis ja, bruk eksisterende.
 - Legg evt. til adresse sted shit
