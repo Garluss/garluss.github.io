@@ -19,6 +19,7 @@
                 <form id="velg">
                     <label for="velg-input">Lag ny </label>
                     <select id="velg-input">
+                        <option value=""></option>
                         <option value="person">Person</option>
                         <option value="arrangør">Arrangør</option>
                         <option value="arrangement">Arrangement</option>
@@ -80,13 +81,13 @@
                     <label for="postnummer">Postnummer: </label>
                     <input id="postnummer">
                     <label for="pris">Billettpris: </label>
-                    <input type="number" id="pris" required>
+                    <input type="number" id="pris">
                     <label for="antall">Tilgjengelige billetter: </label>
-                    <input type="number" id="antall" required>
+                    <input type="number" id="antall">
                     <label for="alder">Aldersgrense: </label>
                     <input type="number" id="alder">
-                    <!--<label for=""> </label>    Opplastning av bilde
-                    <input id="" required> -->
+                    <label for="bilde">Vel bildefil</label>
+                    <input type="file" name="bilde" id="bilde" accept="image/*" required>
                     <input type="submit">
                 </form>
                 <form id="skjema-rolle" class="skjema">

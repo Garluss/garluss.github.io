@@ -53,8 +53,10 @@ async function oppdaterDropdowns() {
 const dd = document.querySelector("#velg-input");
 dd.addEventListener("change", (event) => {
     const verdi = dd.value
-    document.querySelectorAll(".skjema").forEach(element => { element.style.display = "none" });
-    document.querySelector(`#skjema-${verdi.toLowerCase()}`).style.display = "flex";
+    if (verdi != "") {
+        document.querySelectorAll(".skjema").forEach(element => { element.style.display = "none" });
+        document.querySelector(`#skjema-${verdi.toLowerCase()}`).style.display = "flex";
+    }
 });
 
 document.querySelector("#skjema-person").addEventListener("submit", async (event) => {
@@ -76,9 +78,10 @@ document.querySelector("#skjema-arrangør").addEventListener("submit", async (ev
 });
 
 document.querySelector("#skjema-arrangement").addEventListener("submit", async (event) => {
-    event.preventDefault();
+    //event.preventDefault(); Vurdert at dette passer best uten preventDefault()
     const navn = document.getElementById("at-navn").value;
-    const arrangør = document.getElementById("arrangør").value;
+    let arrangør = document.getElementById("arrangør").value;
+    console.log(arrangør)
     const kategori = document.getElementById("kategori").value;
     const beskrivelse = document.getElementById("at-beskrivelse").value;
     const dato = document.getElementById("dato").value;
@@ -87,8 +90,28 @@ document.querySelector("#skjema-arrangement").addEventListener("submit", async (
     const postnummer = document.getElementById("postnummer").value;
     const pris = document.getElementById("pris").value;
     const antall = document.getElementById("antall").value;
-    const alder = document.getElementById("alder").value;
-    const res = await fetch("/api/lagrearrangør", {method:"POST",headers:{"Content-Type":"application/json"}, body: JSON.stringify({navn,arrangør,kategori,beskrivelse,dato,tid,stedsnavn,postnummer,pris,antall,alder})});
+    let alder = document.getElementById("alder").value;
+    const bilde = document.getElementById("bilde").files[0]; // hent filen
+
+    const formData = new FormData();
+    formData.append("navn", navn);
+    formData.append("arrangoerID", arrangør);
+    formData.append("kategori", kategori);
+    formData.append("beskrivelse", beskrivelse);
+    formData.append("dato", dato);
+    formData.append("tid", tid);
+    formData.append("stedsnavn", stedsnavn);
+    formData.append("postnummer", postnummer);
+    formData.append("pris", pris);
+    formData.append("antall", antall);
+    formData.append("alder", alder);
+    console.log(formData);
+    formData.append("bilde", bilde); // legg til bildet
+
+    const res = await fetch("/api/lagrearrangement", {
+        method: "POST",
+        body: formData, // ingen headers, ingen JSON.stringify
+    });
 });
 
 

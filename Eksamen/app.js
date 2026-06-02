@@ -16,6 +16,23 @@ app.use(express.json());
 
 app.use(express.static(path.join(__dirname,'public')));
 
+
+const multer = require('multer');
+const uploadsDir = path.join(__dirname, 'public', 'bilder');
+
+const storage = multer.diskStorage({
+    destination: (_req, _file, cb) => {
+        cb(null, uploadsDir); // cb er callback-funksjonen som tar (error, path) som argumenter - her, ingen feil, og path er uploadsDir.
+    },
+    filename: (_req, file, cb) => {
+        const extension = path.extname(file.originalname);
+        const uniqueName = `${Date.now()}-${Math.round(Math.random() * 1e9)}${extension}`;
+        cb(null, uniqueName); // cb er callback-funksjonen som tar (error, filename) som argumenter - her, ingen feil, og filename er det unike navnet vi genererer.
+    }
+});
+
+const upload = multer({ storage });
+
 app.get("/", (req,res) => {
     res.sendFile(__dirname + "/public/arrangement.html");
 });
@@ -136,29 +153,26 @@ app.post("/api/lagrearrangør", express.json(), async function (req,res) {
         VALUES (?,?,?,?)
     `).run(fornavn,etternavn,epost,tlf);
 });
-app.post("/api/lagrearrangement", express.json(), async function (req,res) {
-    const {navn,arrangør,kategori,beskrivelse,dato,tid,stedsnavn,postnummer,pris,antall,alder} = req.body;
-    db.prepare(`
+app.post("/api/lagrearrangement", upload.single('bilde'), async function (req,res) {
+    const {navn,arrangoerID,kategori,beskrivelse,dato,tid,stedsnavn,postnummer,pris,antall,alder} = req.body;
+    const stedInsert = db.prepare(`
         INSERT INTO 
             Sted (Navn, Postnummer) 
         VALUES (?,?)
     `).run(stedsnavn, postnummer);
-    db.prepare(`
+    const billettInsert = db.prepare(`
         INSERT INTO 
-            BillettInfo (Pris, AntallTilgjengelig) 
+            BillettInfo (Pris, AntallTilgjengelig)
         VALUES (?,?)
     `).run(pris,antall);
-    const stedliste = db.prepare("SELECT StedID FROM Sted WHERE Navn = ? AND Postnummer = ?").all(stedsnavn,postnummer);
-    const billettliste = db.prepare("SELECT BillettID FROM BillettInfo WHERE Pris = ? AND AntallTilgjengelig = ?").all(pris,antall);
+    const { originalname, filename } = req.file;
+    const bildenavn = filename;
     db.prepare(`
         INSERT INTO
             Arrangement (ArrangørID,Navn,Beskrivelse,Kategori,Dato,Tid,StedID,BillettID,Aldersgrense,Bilde)
         VALUES (?,?,?,?,?,?,?,?,?,?)
-    `).run(arrangør,navn,beskrivelse,kategori,dato,tid,stedliste[0].StedID,billettliste[0].BillettID,alder,_);
+    `).run(Number(arrangoerID),navn,beskrivelse,kategori,dato,tid,stedInsert.lastInsertRowid,billettInsert.lastInsertRowid,alder,bildenavn);
 });
-
-
-
 
 app.listen(PORT, () => {
     console.log(`Server åpen på port ${PORT}`);

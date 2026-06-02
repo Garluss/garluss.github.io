@@ -43,6 +43,10 @@ nav a:hover {
     padding: 10px;
     background-color: white;
 }
+.arrang img {
+    max-width: 300px;
+    max-height: 300px;
+}
 
 .a-o {
     display: flex;

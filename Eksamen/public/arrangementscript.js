@@ -28,6 +28,9 @@ async function kjør() {
         p.innerText = arrangement.Kategori;
         udiv.appendChild(p);
         div.appendChild(udiv);
+        let img = document.createElement("img");
+        img.setAttribute("src","/bilder/" + arrangement.Bilde);
+        div.appendChild(img);
         p = document.createElement("p");
         p.innerText = arrangement.Beskrivelse;
         p.setAttribute("class","a-bes");
