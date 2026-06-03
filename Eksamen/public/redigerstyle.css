@@ -41,9 +41,8 @@ nav a:hover {
 }
 
 #arrangliste {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
     padding: 40px;
     background-color: rgb(240, 240, 240);
     height: auto;
@@ -53,8 +52,24 @@ nav a:hover {
     border: 1px solid black;
     padding: 10px;
     background-color: white;
-    height: 230px;
-    width: 300px;
+    margin: 10px;
+    max-height: 400px;
+}
+
+@media (max-width: 1500px) { 
+    #arrangliste {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+@media (max-width: 1055px) { 
+    #arrangliste {
+        grid-template-columns: 1fr;
+    }
+}
+@media (max-width: 480px) { 
+    nav a {
+        margin: 0;
+    }
 }
 
 .a-o {

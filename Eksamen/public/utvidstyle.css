@@ -43,7 +43,7 @@ nav a:hover {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
-    width: 200px;
+    width: 250px;
 }
 
 #annet {

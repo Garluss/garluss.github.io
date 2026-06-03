@@ -116,7 +116,7 @@ app.get("/api/arrangement/:ID", (req,res) => { // Henter info om arrangementet
         FROM Arrangement
         LEFT JOIN Arrangør
             ON Arrangement.ArrangørID = Arrangør.ArrangørID
-        JOIN Person
+        LEFT JOIN Person
             ON Arrangør.Kontaktperson = Person.PersonID
         WHERE Arrangement.ArrangementID = ?;
     `).all(ID); // Henter info om roller
@@ -192,6 +192,17 @@ app.post("/api/lagrearrangement", upload.single('bilde'), async function (req,re
             Arrangement (ArrangørID,Navn,Beskrivelse,Kategori,Dato,Tid,StedID,BillettID,Aldersgrense,Bilde,Alttekst)
         VALUES (?,?,?,?,?,?,?,?,?,?,?)
     `).run(Number(arrangoerID),navn,beskrivelse,kategori,dato,tid,stedInsert.lastInsertRowid,billettInsert.lastInsertRowid,alder,bildenavn,alttekst);
+    res.sendStatus(200);
+});
+
+// POST-rute for å lagre informasjon om arrangøren.
+app.post("/api/lagrerolle", express.json(), async function (req,res) {
+    let {arrangement,person,rolle} = req.body;
+    db.prepare(`
+        INSERT INTO 
+            ArrangementPerson (ArrangementID, PersonID, Rolle)
+        VALUES (?,?,?)
+    `).run(arrangement,person,rolle);
     res.sendStatus(200);
 });
 

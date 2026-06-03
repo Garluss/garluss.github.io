@@ -3,7 +3,6 @@ const ut = document.querySelector("#arrangliste");
 async function hentData() {
     const res = await fetch("/api/arrangement_data");
     const data = await res.json();
-    console.log(data);
     return data;
 }
 
@@ -11,11 +10,39 @@ function utvid(event) {
     window.location.pathname = "/arrangement/" + event.target.id;
 }
 
-async function kjør() {
-    data = await hentData();
-    console.log(data);
+// Viser det skjemaet som velges med select-elementet
+const dd = document.querySelector("#kategori-select");
+dd.addEventListener("change", (event) => {
+    const verdi = dd.value
+    console.log(verdi);
+    oppdaterListe(verdi);
+});
 
+async function kjør() {
+    let data = await hentData();
+    let kategorier = []
+    document.querySelector("#kategori-select").innerHTML = "<option value=''></option>"
     data.forEach(arrangement => {
+        if (kategorier.includes(arrangement.Kategori) == false) {
+            kategorier.push(arrangement.Kategori);
+        }
+    });
+    kategorier.forEach(kategori => {
+        let option = document.createElement("option");
+        option.value = kategori;
+        option.innerText = kategori;
+        document.querySelector("#kategori-select").appendChild(option)
+    });
+    oppdaterListe("");
+}
+
+async function oppdaterListe(filter) {
+    let data = await hentData();
+    ut.innerHTML = "";
+    data.forEach(arrangement => {
+        if (arrangement.Kategori != filter && filter != "") {
+            return;
+        }
         let div = document.createElement("div");
         div.setAttribute("class","arrang");
 

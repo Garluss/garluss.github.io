@@ -6,16 +6,6 @@ async function hentData() {
     return data;
 }
 
-/* Forslag til mulig slette-funksjon
-async function slett(event) {
-    const knapp = event.target;
-    if (knapp.innerText != "Sikker?") {
-        knapp.innerText  = "Sikker?";
-    } else {
-        const res = await fetch("/api/slett", {method:"POST",headers:{"Content-Type":"application/json"}, body: JSON.stringify({"id":knapp.id})});
-    }
-}
-*/
 
 // I denne funksjon henter vi informasjon om alle de mulige valgene dropdownene kan ha.
 // De gjenspeiler informasjonen fra databasen
@@ -69,7 +59,7 @@ document.querySelector("#skjema-person").addEventListener("submit", async (event
     const etternavn = document.getElementById("etternavn").value;
     const epost = document.getElementById("epost").value;
     const tlf = document.getElementById("tlf").value;
-    document.querySelector("#skjema-arrangør").reset();
+    document.querySelector("#skjema-person").reset();
     const res = await fetch("/api/lagreperson", {method:"POST",headers:{"Content-Type":"application/json"}, body: JSON.stringify({fornavn,etternavn,epost,tlf})});
 });
 
@@ -119,11 +109,20 @@ document.querySelector("#skjema-arrangement").addEventListener("submit", async (
     formData.append("bilde", bilde); // legg til bildet
     formData.append("alttekst",alttekst);
 
-    document.querySelector("#skjema-arrangør").reset();
+    document.querySelector("#skjema-arrangement").reset();
     const res = await fetch("/api/lagrearrangement", {
         method: "POST",
         body: formData, // ingen headers, ingen JSON.stringify
     });
+});
+
+document.querySelector("#skjema-rolle").addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const arrangement = document.getElementById("arrangement").value;
+    const person = document.getElementById("person").value;
+    const rolle = document.getElementById("rolle").value;
+    document.querySelector("#skjema-rolle").reset();
+    const res = await fetch("/api/lagrerolle", {method:"POST",headers:{"Content-Type":"application/json"}, body: JSON.stringify({arrangement,person,rolle})});
 });
 
 
@@ -169,11 +168,6 @@ async function kjør() {
         p.innerText = `Aldersgrense: ${arrangement.Aldersgrense} +`;
         udiv.appendChild(p);
         div.appendChild(udiv);
-        /*p = document.createElement("button");
-        p.innerText = "Slett";
-        p.setAttribute("id",arrangement.ArrangementID);
-        p.addEventListener("click",slett);
-        div.appendChild(p);*/
         ut.appendChild(div);
     });
     //Setter minimum tid
@@ -191,6 +185,7 @@ async function kjør() {
     info.innerText = `
     Denne siden kan spørre om sensitiv informasjon da man skal lagre nye data på databasen. \n
     Dette inkluderer telefonnummer og epost. Det er valgfritt å oppgi denne informasjonen.
+    Informasjonen vil vises offentlig på nettsiden etter lagring.
     `;
     popup.appendChild(info);
     let knapp = document.createElement("button");

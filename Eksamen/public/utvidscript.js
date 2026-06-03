@@ -29,9 +29,11 @@ async function kjør() {
     document.querySelector("#arg-navn").innerText = arrangør.Navn;
     document.querySelector("#arg-type").innerText = arrangør.Type;
     document.querySelector("#arg-beskrivelse").innerText = arrangør.Beskrivelse;
-    document.querySelector("#arg-kontaktnavn").innerText = `Kontaktperson: ${arrangør.KontaktpersonFornavn + " " + arrangør.KontaktpersonEtternavn}`;
-    document.querySelector("#arg-kontaktpersonepost").innerText = arrangør.KontaktpersonEpost;
-    document.querySelector("#arg-kontaktpersontlf").innerText = "Tlf.: " + arrangør.KontaktpersonTlf;
+    if (arrangør.KontaktpersonFornavn && arrangør.KontaktpersonEtternavn) {
+        document.querySelector("#arg-kontaktnavn").innerText = `Kontaktperson: ${arrangør.KontaktpersonFornavn + " " + arrangør.KontaktpersonEtternavn}`;
+    }
+    if (arrangør.KontaktpersonEpost) { document.querySelector("#arg-kontaktpersonepost").innerText = arrangør.KontaktpersonEpost; }
+    if (arrangør.KontaktpersonTlf) { document.querySelector("#arg-kontaktpersontlf").innerText = "Tlf.: " + arrangør.KontaktpersonTlf; }
 
     //Setter inn for roller:
     console.log(roller);
